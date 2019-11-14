@@ -16,7 +16,7 @@ export const setDevServer = (_: WebpackDevServer.Configuration, genius: WebpackG
     quiet: false,
     inline: true,
     overlay: true,
-    stats: 'errors-only',
+    stats: genius.collect().stats,
     historyApiFallback: {
       // Paths with dots should still use the history fallback.
       disableDotRule: true,
