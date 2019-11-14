@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import webpack, { Configuration, Output, Options, Resolve, Plugin, RuleSetRule } from 'webpack';
+import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule } from 'webpack';
 import clonedeep from 'lodash.clonedeep';
 import { HotModule } from './plugins/HotModule';
 import { PluginHandle } from './plugins/PluginHandle';
@@ -19,7 +19,6 @@ import { Scss } from './rules/Scss';
 import { Less } from './rules/Less';
 import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
-import SplitChunksOptions = webpack.Options.SplitChunksOptions;
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -139,7 +138,7 @@ export class WebpackGenius {
     this.pluginMiniCss();
 
     this.optimization((optimization) => {
-      const chunks = optimization.splitChunks as SplitChunksOptions;
+      const chunks = optimization.splitChunks as Options.SplitChunksOptions;
 
       if (!chunks.cacheGroups) {
         chunks.cacheGroups = {};
@@ -202,37 +201,49 @@ export class WebpackGenius {
   }
 
   public pluginHotModuleReplace(fn?: (plugin: HotModule) => void): this {
-    fn?.(this.findPlugin('hot-module-replace', () => new HotModule(this)));
+    const plugin = this.findPlugin('hot-module-replace', () => new HotModule(this));
+
+    fn?.(plugin);
 
     return this;
   }
 
   public pluginHardSource(fn?: (plugin: HardSource) => void): this {
-    fn?.(this.findPlugin('hard-source', () => new HardSource(this)));
+    const plugin = this.findPlugin('hard-source', () => new HardSource(this));
+
+    fn?.(plugin);
 
     return this;
   }
 
   public pluginHtml(fn?: (plugin: HtmlPlugin) => void): this {
-    fn?.(this.findPlugin('html', () => new HtmlPlugin(this)));
+    const plugin = this.findPlugin('html', () => new HtmlPlugin(this));
+
+    fn?.(plugin);
 
     return this;
   }
 
   public pluginHashedModule(fn?: (plugin: HashedModuleIds) => void): this {
-    fn?.(this.findPlugin('hashed-module', () => new HashedModuleIds(this)));
+    const plugin = this.findPlugin('hashed-module', () => new HashedModuleIds(this));
+
+    fn?.(plugin);
 
     return this;
   }
 
   public pluginClean(fn?: (plugin: Clean) => void): this {
-    fn?.(this.findPlugin('clean', () => new Clean(this)));
+    const plugin = this.findPlugin('clean', () => new Clean(this));
+
+    fn?.(plugin);
 
     return this;
   }
 
   public pluginMiniCss(fn?: (plugin: MiniCss) => void): this {
-    fn?.(this.findPlugin('mini-css', () => new MiniCss(this)));
+    const plugin = this.findPlugin('mini-css', () => new MiniCss(this));
+
+    fn?.(plugin);
 
     return this;
   }
@@ -244,49 +255,65 @@ export class WebpackGenius {
   }
 
   public ruleTsx(fn?: (rule: Tsx) => void): this {
-    fn?.(this.findRule('tsx', () => new Tsx(this)));
+    const rule = this.findRule('tsx', () => new Tsx(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleJsx(fn?: (rule: Jsx) => void): this {
-    fn?.(this.findRule('jsx', () => new Jsx(this)));
+    const rule = this.findRule('jsx', () => new Jsx(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleCss(fn?: (rule: Css) => void): this {
-    fn?.(this.findRule('css', () => new Css(this)));
+    const rule = this.findRule('css', () => new Css(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleScss(fn?: (rule: Scss) => void): this {
-    fn?.(this.findRule('scss', () => new Scss(this)));
+    const rule = this.findRule('scss', () => new Scss(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleLess(fn?: (rule: Less) => void): this {
-    fn?.(this.findRule('less', () => new Less(this)));
+    const rule = this.findRule('less', () => new Less(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleLessAntd(fn?: (rule: LessAntd) => void): this {
-    fn?.(this.findRule('less-antd', () => new LessAntd(this)));
+    const rule = this.findRule('less-antd', () => new LessAntd(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleAsset(fn?: (rule: Asset) => void): this {
-    fn?.(this.findRule('asset', () => new Asset(this)));
+    const rule = this.findRule('asset', () => new Asset(this));
+
+    fn?.(rule);
 
     return this;
   }
 
   public ruleHtml(fn?: (rule: HtmlRule) => void): this {
-    fn?.(this.findRule('html', () => new HtmlRule(this)));
+    const rule = this.findRule('html', () => new HtmlRule(this));
+
+    fn?.(rule);
 
     return this;
   }

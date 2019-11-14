@@ -1,6 +1,6 @@
-const option = process.argv.splice(2, 1)[0];
+#!/usr/bin/env ts-node
 
-console.log(option, process.argv);
+const option = process.argv.splice(2, 1)[0];
 
 switch (option) {
   case 'start':

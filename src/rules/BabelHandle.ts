@@ -4,7 +4,7 @@ import { RuleSetLoader } from 'webpack';
 export interface BabelOptions {
   'babel-loader': {
     cacheDirectory: string;
-    plugins: Array<[string] | [string, Record<string, any>]>;
+    plugins: Array<[string] | [string, Record<string, any>] | [string, Record<string, any>, string]>;
     presets: Array<[string] | [string, Record<string, any>]>;
   };
 }
@@ -21,6 +21,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
             libraryName: 'antd',
             style: true,
           },
+          'antd',
         ]);
       });
     }
@@ -33,6 +34,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
             libraryName: 'antd-mobile',
             style: true,
           },
+          'antd-mobile',
         ]);
       });
     }
@@ -52,6 +54,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
             libraryDirectory: '',
             camel2DashComponentName: false,
           },
+          'lodash',
         ])
       });
     }

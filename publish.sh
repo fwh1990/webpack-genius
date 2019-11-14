@@ -6,6 +6,7 @@ rm -rf ./build
 
 mv ./build/src/* ./build
 cp README.md package.json LICENSE ./build
+rm -r ./build/src
 
 old_registry=$(npm config get registry)
 npm config set registry https://registry.npmjs.org

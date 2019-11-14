@@ -1,6 +1,22 @@
 # Installation
 ```bash
+yarn add core-js
 yarn add webpack-genius --dev
+```
+
+If you are using `React`, you are required to install these packages:
+```bash
+yarn add react-hot-loader @hot-loader/react-dom --dev
+```
+
+# Cli
+```bash
+# Start project
+webpack-genius start
+
+# Build code
+webpack-genius build --env production
+webpack-genius build --env development
 ```
 
 # Usage

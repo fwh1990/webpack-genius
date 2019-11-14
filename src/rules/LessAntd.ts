@@ -1,9 +1,20 @@
-import { RuleSetCondition, RuleSetLoader } from 'webpack';
-import { resolve } from 'path';
+import path from 'path';
 import { Less } from './Less';
 
-
 export class LessAntd extends Less {
+  protected onInit() {
+    super.onInit();
+
+    this.setOptions('css-loader', (options) => {
+      options.modules = false;
+    });
+
+    this.setOptions('less-loader', (options) => {
+      options.modifyVars = {};
+      options.javascriptEnabled = true;
+    });
+  }
+
   public theme(theme: object): this {
     this.setOptions('less-loader', (options) => {
       options.modifyVars = theme;
@@ -12,27 +23,11 @@ export class LessAntd extends Less {
     return this;
   }
 
-  protected test(): RuleSetCondition {
-    return /\.less$/;
-  }
-
   protected exclude() {
     return undefined;
   }
 
   protected include() {
-    return resolve('./node_modules/antd/');
-  }
-
-  protected loaders(): RuleSetLoader[] {
-    return super.loaders().concat([
-      {
-        loader: 'less-loader',
-        options: {
-          modifyVars: {},
-          javascriptEnabled: true,
-        },
-      },
-    ]);
+    return path.resolve('./node_modules/antd/');
   }
 }
