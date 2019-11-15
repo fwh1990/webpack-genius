@@ -28,6 +28,8 @@ const packageFile: {
    } = JSON.parse(fs.readFileSync(path.resolve('./package.json')).toString());
 
 export class WebpackGenius {
+  public readonly webpack: typeof webpack = webpack;
+
   private readonly config: Configuration = {
     output: {},
     stats: {},
@@ -51,10 +53,6 @@ export class WebpackGenius {
   public constructor(environment: string, port: number) {
     this.environment = environment || 'development';
     this.port = port;
-  }
-
-  public get webpack() {
-    return webpack;
   }
 
   public hasPackage(name: string): boolean {
