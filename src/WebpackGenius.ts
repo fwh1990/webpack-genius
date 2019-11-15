@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import * as webpack from 'webpack';
 import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule } from 'webpack';
 import clonedeep from 'lodash.clonedeep';
 import { HotModule } from './plugins/HotModule';
@@ -50,6 +51,10 @@ export class WebpackGenius {
   public constructor(environment: string, port: number) {
     this.environment = environment || 'development';
     this.port = port;
+  }
+
+  public get webpack() {
+    return webpack;
   }
 
   public hasPackage(name: string): boolean {
