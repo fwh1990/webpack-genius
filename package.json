@@ -1,6 +1,6 @@
 {
   "name": "webpack-genius",
-  "version": "4.0.14",
+  "version": "4.0.15",
   "main": "index.js",
   "repository": "git@github.com:fwh1990/webpack-genius.git",
   "author": "范文华 <531362022@qq.com>",
@@ -20,13 +20,9 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "@babel/preset-typescript": "^7.7.2",
-    "@types/autoprefixer": "^9.6.1",
     "@types/hard-source-webpack-plugin": "^1.0.1",
     "@types/html-webpack-plugin": "^3.2.1",
-    "@types/lodash.clonedeep": "^4.5.6",
     "@types/mini-css-extract-plugin": "^0.8.0",
-    "@types/node": "^12.12.7",
-    "@types/optimize-css-assets-webpack-plugin": "^5.0.1",
     "@types/webpack": "^4.39.8",
     "@types/webpack-dev-server": "^3.4.0",
     "@types/webpack-env": "^1.14.1",
@@ -55,5 +51,11 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
+  },
+  "devDependencies": {
+    "@types/autoprefixer": "^9.6.1",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/node": "^12.12.8",
+    "@types/optimize-css-assets-webpack-plugin": "^5.0.1"
   }
 }
