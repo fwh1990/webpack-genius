@@ -297,7 +297,7 @@ export class WebpackGenius {
     return this;
   }
 
-  public ruleLessAntd(fn?: (rule: LessAntd) => void): this {
+  public ruleAntd(fn?: (rule: LessAntd) => void): this {
     const rule = this.findRule('less-antd', () => new LessAntd(this));
 
     fn?.(rule);

@@ -45,7 +45,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleCss()
       .ruleScss()
       .ruleLess()
-      .ruleLessAntd((rule) => {
+      .ruleAntd((rule) => {
         rule.enable(genius.hasPackage('antd'));
       })
       .ruleAsset()
