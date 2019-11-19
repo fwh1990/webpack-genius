@@ -44,7 +44,7 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
       {
         loader: 'css-loader',
         options: {
-          modules: this.genius.isDev(),
+          modules: true,
         },
       },
       {
