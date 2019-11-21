@@ -50,9 +50,15 @@ export class WebpackGenius {
 
   private readonly port: number;
 
+  private openBrowser: boolean = true;
+
   public constructor(environment: string, port: number) {
     this.environment = environment || 'development';
     this.port = port;
+  }
+
+  public isOpenBrowser(): boolean {
+    return this.openBrowser;
   }
 
   public hasPackage(name: string): boolean {
@@ -347,6 +353,13 @@ export class WebpackGenius {
         config.module?.rules.push(rule.collect());
       }
     });
+
+    if (config.devServer?.open) {
+      config.devServer.open = false;
+      this.openBrowser = true;
+    } else {
+      this.openBrowser = false;
+    }
 
     return config;
   }
