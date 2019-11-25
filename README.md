@@ -6,7 +6,7 @@ yarn add webpack-genius --dev
 
 If you are using `React`, you are required to install these packages:
 ```bash
-yarn add react-hot-loader @hot-loader/react-dom --dev
+yarn add @hot-loader/react-dom --dev
 ```
 
 # Cli
@@ -25,6 +25,18 @@ Create file `webpack.config.ts`
 import webpackGenius from 'webpack-genius';
 
 export default webpackGenius();
+```
+
+Add HotComponent to entry file
+```jsx harmony
+import HotReact from 'webpack-genius/hot/react';
+
+ReactDOM.render(
+    <HotReact>
+        <App />
+    </HotReact>,
+    document.body
+);
 ```
 
 ### With Port
