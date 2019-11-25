@@ -187,8 +187,12 @@ export class WebpackGenius {
     return this;
   }
 
-  public entry(entry: Configuration['entry']): this {
+  public entry(entry: NonNullable<Configuration['entry']>): this {
     this.config.entry = clonedeep(entry);
+
+    if (this.isDev()) {
+      this.config.entry = this.prependEntry(this.config.entry);
+    }
 
     return this;
   }
@@ -327,18 +331,6 @@ export class WebpackGenius {
     return this;
   }
 
-  protected findPlugin<T extends PluginHandle>(name: string, or: () => T): T {
-    this.plugins[name] = this.plugins[name] || or();
-
-    return this.plugins[name] as T;
-  }
-
-  protected findRule<T extends RuleHandle>(name: string, or: () => T): T {
-    this.rules[name] = this.rules[name] || or();
-
-    return this.rules[name] as T;
-  }
-
   public collect() {
     const config = clonedeep(this.config);
 
@@ -362,5 +354,45 @@ export class WebpackGenius {
     }
 
     return config;
+  }
+
+  protected prependEntry(entry: NonNullable<Configuration['entry']>): NonNullable<Configuration['entry']> {
+    const hotPatch: Configuration['entry'] = ['react-hot-loader/patch'];
+
+    if (typeof entry === 'function') {
+      return () => Promise.resolve(entry()).then((item) => {
+        const newItem = this.prependEntry(item);
+
+        if (typeof newItem === 'function') {
+          throw new TypeError('[webpack.entry] Do not return another function by function.');
+        }
+
+        return newItem;
+      });
+    }
+
+    if (typeof entry === 'object' && !Array.isArray(entry)) {
+      const clone = {};
+
+      Object.keys(entry).forEach((key) => {
+        clone[key] = hotPatch.concat(entry[key]);
+      });
+
+      return clone;
+    }
+
+    return hotPatch.concat(entry);
+  }
+
+  protected findPlugin<T extends PluginHandle>(name: string, or: () => T): T {
+    this.plugins[name] = this.plugins[name] || or();
+
+    return this.plugins[name] as T;
+  }
+
+  protected findRule<T extends RuleHandle>(name: string, or: () => T): T {
+    this.rules[name] = this.rules[name] || or();
+
+    return this.rules[name] as T;
   }
 }
