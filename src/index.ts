@@ -25,7 +25,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .miniCss(genius.isProd())
       .pluginClean()
       .pluginHtml((plugin) => {
-        plugin.setTitle('Webpack Genius');
+        plugin.setTitle(genius.getPackageField('name') || 'Webpack Genius');
       })
       .pluginHotModuleReplace((plugin) => {
         plugin.enable(genius.isDev());
@@ -47,6 +47,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleLess()
       .ruleAntd((rule) => {
         rule.enable(genius.hasPackage('antd'));
+      })
+      .ruleHotReactDom((rule) => {
+        rule.enable(genius.hasPackage('react') && genius.isDev());
       })
       .ruleAsset()
       .ruleHtml();

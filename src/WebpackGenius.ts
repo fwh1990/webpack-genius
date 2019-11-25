@@ -20,6 +20,7 @@ import { Scss } from './rules/Scss';
 import { Less } from './rules/Less';
 import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
+import { HotReactDom } from './rules/HotReactDom';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -325,6 +326,14 @@ export class WebpackGenius {
 
   public ruleHtml(fn?: (rule: HtmlRule) => void): this {
     const rule = this.findRule('html', () => new HtmlRule(this));
+
+    fn?.(rule);
+
+    return this;
+  }
+
+  public ruleHotReactDom(fn?: (rule: HotReactDom) => void): this {
+    const rule = this.findRule('react-dom', () => new HotReactDom(this));
 
     fn?.(rule);
 
