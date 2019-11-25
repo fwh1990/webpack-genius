@@ -190,7 +190,7 @@ export class WebpackGenius {
   public entry(entry: NonNullable<Configuration['entry']>): this {
     this.config.entry = clonedeep(entry);
 
-    if (this.isDev()) {
+    if (this.isDev() && this.hasPackage('react')) {
       this.config.entry = this.prependEntry(this.config.entry);
     }
 
