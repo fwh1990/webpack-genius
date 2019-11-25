@@ -49,7 +49,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
         rule.enable(genius.hasPackage('antd'));
       })
       .ruleHotReactDom((rule) => {
-        rule.enable(genius.hasPackage('react') && genius.isDev());
+        rule.enable(genius.hasPackage('react-dom') && genius.isDev());
       })
       .ruleAsset()
       .ruleHtml();
