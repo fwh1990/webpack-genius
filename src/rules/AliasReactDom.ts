@@ -1,7 +1,7 @@
 import { RuleHandle } from './RuleHandle';
 import { RuleSetCondition, RuleSetLoader } from 'webpack';
 
-export class HotReactDom extends RuleHandle {
+export class AliasReactDom extends RuleHandle {
   protected test(): RuleSetCondition {
     return /\.js$/;
   }
@@ -11,7 +11,7 @@ export class HotReactDom extends RuleHandle {
   }
 
   protected include(): RuleSetCondition | undefined {
-    return /node_modules\/react-dom/;
+    return /node_modules[\\\/]react-dom/;
   }
 
   protected loaders(): RuleSetLoader[] {

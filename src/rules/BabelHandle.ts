@@ -2,6 +2,8 @@ import { RuleHandle } from './RuleHandle';
 import { RuleSetLoader } from 'webpack';
 
 export interface BabelOptions {
+  'cache-loader': {},
+  'thread-loader': {},
   'babel-loader': {
     cacheDirectory: string;
     plugins: Array<[string] | [string, Record<string, any>] | [string, Record<string, any>, string]>;
@@ -74,6 +76,12 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
 
   protected loaders(): RuleSetLoader[] {
     return [
+      {
+        loader: 'cache-loader',
+      },
+      {
+        loader: 'thread-loader',
+      },
       {
         loader: 'babel-loader',
         options: {

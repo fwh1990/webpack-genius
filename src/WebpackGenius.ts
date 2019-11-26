@@ -20,7 +20,8 @@ import { Scss } from './rules/Scss';
 import { Less } from './rules/Less';
 import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
-import { HotReactDom } from './rules/HotReactDom';
+import { AliasReactDom } from './rules/AliasReactDom';
+import { Compression } from './plugins/Compression';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -222,6 +223,14 @@ export class WebpackGenius {
     return this;
   }
 
+  public pluginCompression(fn?: (plugin: Compression) => void): this {
+    const plugin = this.findPlugin('compression', () => new Compression(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
   public pluginHardSource(fn?: (plugin: HardSource) => void): this {
     const plugin = this.findPlugin('hard-source', () => new HardSource(this));
 
@@ -332,8 +341,8 @@ export class WebpackGenius {
     return this;
   }
 
-  public ruleHotReactDom(fn?: (rule: HotReactDom) => void): this {
-    const rule = this.findRule('react-dom', () => new HotReactDom(this));
+  public ruleHotReactDom(fn?: (rule: AliasReactDom) => void): this {
+    const rule = this.findRule('react-dom', () => new AliasReactDom(this));
 
     fn?.(rule);
 
