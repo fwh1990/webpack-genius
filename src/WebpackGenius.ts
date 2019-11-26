@@ -21,7 +21,7 @@ import { Less } from './rules/Less';
 import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
 import { AliasReactDom } from './rules/AliasReactDom';
-import { Compression } from './plugins/Compression';
+import { Gzip } from './plugins/Gzip';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -223,8 +223,8 @@ export class WebpackGenius {
     return this;
   }
 
-  public pluginCompression(fn?: (plugin: Compression) => void): this {
-    const plugin = this.findPlugin('compression', () => new Compression(this));
+  public pluginGzip(fn?: (plugin: Gzip) => void): this {
+    const plugin = this.findPlugin('gzip', () => new Gzip(this));
 
     fn?.(plugin);
 
