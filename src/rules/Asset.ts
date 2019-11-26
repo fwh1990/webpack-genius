@@ -5,6 +5,7 @@ interface AssetOptions {
   'url-loader': {
     limit: number;
     name: string;
+    esModules: boolean;
   };
 }
 
@@ -21,6 +22,7 @@ export class Asset extends RuleHandle<AssetOptions> {
           // Transform to bese64
           limit: 2048,
           name: 'assets/[name].[hash:12].[ext]',
+          esModules: false,
         },
       }
     ];
