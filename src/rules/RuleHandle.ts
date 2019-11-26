@@ -21,7 +21,7 @@ export abstract class RuleHandle<T = any> {
 
   public addLoaderBefore(loader: RuleSetLoader, beforeLoaderName?: string): this {
     const index = (this.rule.use as RuleSetLoader[]).findIndex((item) => {
-      return item.loader === beforeLoaderName;
+      return this.isLoaderEqual(item.loader, beforeLoaderName);
     });
 
     if (index === -1) {
@@ -35,7 +35,7 @@ export abstract class RuleHandle<T = any> {
 
   public addLoaderAfter(loader: RuleSetLoader, afterLoaderName?: string): this {
     const index = (this.rule.use as RuleSetLoader[]).findIndex((item) => {
-      return item.loader === afterLoaderName;
+      return this.isLoaderEqual(item.loader, afterLoaderName);
     });
 
     if (index === -1) {
@@ -69,7 +69,7 @@ export abstract class RuleHandle<T = any> {
 
   public setOptions<U extends keyof T>(loaderName: U, fn: (options: Partial<T[U]>) => Partial<T[U]> | void): this {
     const loader = (this.rule.use as RuleSetLoader[]).find((item) => {
-      return item.loader === loaderName;
+      return this.isLoaderEqual(item.loader, loaderName);
     });
 
     if (!loader) {
@@ -87,7 +87,7 @@ export abstract class RuleHandle<T = any> {
 
   public disableLoader(loaderName: keyof T): this {
     this.rule.use = (this.rule.use as RuleSetLoader[]).filter((item) => {
-      return item.loader !== loaderName;
+      return !this.isLoaderEqual(item.loader, loaderName);
     });
 
     return this;
@@ -106,6 +106,18 @@ export abstract class RuleHandle<T = any> {
   }
 
   public collect(): RuleSetRule {
+    this.rule.use?.forEach((item: RuleSetLoader) => {
+      item.loader = require.resolve(item.loader!);
+    });
+
     return this.rule;
+  }
+
+  protected isLoaderEqual(loader, search?: keyof T | string) {
+    if (!search) {
+      return false;
+    }
+
+    return loader === search || loader === require.resolve(String(search));
   }
 }

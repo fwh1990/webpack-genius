@@ -1,5 +1,5 @@
 import { RuleHandle } from './RuleHandle';
-import { RuleSetLoader } from 'webpack';
+import { RuleSetLoader, RuleSetRule } from 'webpack';
 
 export interface BabelOptions {
   'cache-loader': {},
@@ -18,7 +18,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     if (this.genius.hasPackage('antd')) {
       this.setOptions('babel-loader', (options) => {
         options.plugins?.push([
-          'import',
+          'babel-plugin-import',
           {
             libraryName: 'antd',
             style: true,
@@ -31,7 +31,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     if (this.genius.hasPackage('antd-mobile')) {
       this.setOptions('babel-loader', (options) => {
         options.plugins?.push([
-          'import',
+          'babel-plugin-import',
           {
             libraryName: 'antd-mobile',
             style: true,
@@ -50,7 +50,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     if (this.genius.isProd() && this.genius.hasPackage('lodash')) {
       this.setOptions('babel-loader', (options) => {
         options.plugins?.push([
-          'import',
+          'babel-plugin-import',
           {
             libraryName: 'lodash',
             libraryDirectory: '',
@@ -120,5 +120,19 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
         },
       },
     ];
+  }
+
+  public collect(): RuleSetRule {
+    this.setOptions('babel-loader', (options) => {
+      options.plugins?.forEach((item) => {
+        item[0] = require.resolve(item[0]);
+      });
+
+      options.presets?.forEach((item) => {
+        item[0] = require.resolve(item[0]);
+      });
+    });
+
+    return super.collect();
   }
 }
