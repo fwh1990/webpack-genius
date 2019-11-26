@@ -10,6 +10,9 @@
   ],
   "license": "MIT",
   "bin": "./command.js",
+  "engines": {
+    "node": ">= 10.13.0"
+  },
   "peerDependencies": {
     "core-js": "^3.0.0"
   },
