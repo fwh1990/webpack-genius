@@ -1,3 +1,4 @@
+import './module';
 import { WebpackGenius } from "./WebpackGenius";
 import { setOutput } from "./libraries/output";
 import { setStats } from './libraries/stats';
