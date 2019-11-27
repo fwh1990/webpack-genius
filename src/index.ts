@@ -30,9 +30,6 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .pluginHotModuleReplace((plugin) => {
         plugin.enable(genius.isDev());
       })
-      .pluginHardSource((plugin) => {
-        plugin.enable(genius.isDev());
-      })
       .pluginHashedModule((plugin) => {
         plugin.enable(genius.isProd());
       })

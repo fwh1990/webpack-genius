@@ -5,7 +5,6 @@ import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule } from 'we
 import clonedeep from 'lodash.clonedeep';
 import { HotModule } from './plugins/HotModule';
 import { PluginHandle } from './plugins/PluginHandle';
-import { HardSource } from './plugins/HardSource';
 import { HashedModuleIds } from './plugins/HashedModuleIds';
 import { Html as HtmlPlugin } from './plugins/Html';
 import { Html as HtmlRule } from './rules/Html';
@@ -225,14 +224,6 @@ export class WebpackGenius {
 
   public pluginGzip(fn?: (plugin: Gzip) => void): this {
     const plugin = this.findPlugin('gzip', () => new Gzip(this));
-
-    fn?.(plugin);
-
-    return this;
-  }
-
-  public pluginHardSource(fn?: (plugin: HardSource) => void): this {
-    const plugin = this.findPlugin('hard-source', () => new HardSource(this));
 
     fn?.(plugin);
 

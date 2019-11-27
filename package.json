@@ -1,6 +1,6 @@
 {
   "name": "webpack-genius",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "main": "index.js",
   "repository": "git@github.com:fwh1990/webpack-genius.git",
   "author": "范文华 <531362022@qq.com>",
@@ -25,11 +25,10 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
     "@babel/runtime-corejs3": "^7.7.4",
-    "@types/hard-source-webpack-plugin": "^1.0.1",
     "@types/html-webpack-plugin": "^3.2.1",
     "@types/mini-css-extract-plugin": "^0.8.0",
     "@types/webpack": "^4.41.0",
-    "@types/webpack-dev-server": "^3.4.0",
+    "@types/webpack-dev-server": "^3.9.0",
     "@types/webpack-env": "^1.14.1",
     "autoprefixer": "^9.7.2",
     "babel-loader": "^8.0.6",
@@ -39,7 +38,6 @@
     "compression-webpack-plugin": "^3.0.0",
     "css-loader": "^3.2.0",
     "file-loader": "^5.0.2",
-    "hard-source-webpack-plugin": "^0.13.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.10.3",
@@ -68,6 +66,6 @@
     "@types/node": "^12.12.14",
     "@types/optimize-css-assets-webpack-plugin": "^5.0.1",
     "@types/react": "^16.9.13",
-    "core-js": "^3.4.2"
+    "core-js": "^3.4.3"
   }
 }
