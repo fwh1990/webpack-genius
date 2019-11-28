@@ -9,7 +9,7 @@ type Pattern = Exclude<Patterns[0], string>;
 export class Copy extends PluginHandle {
   protected patterns: Patterns = [];
 
-  protected copy(pattern: Pattern): this {
+  public copy(pattern: Pattern): this {
     this.patterns.push(pattern);
 
     return this;
