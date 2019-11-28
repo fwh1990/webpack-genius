@@ -22,6 +22,7 @@ import { Asset } from './rules/Asset';
 import { AliasReactDom } from './rules/AliasReactDom';
 import { Gzip } from './plugins/Gzip';
 import { Copy } from './plugins/Copy';
+import { Define } from './plugins/Define';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -233,6 +234,14 @@ export class WebpackGenius {
 
   public pluginGzip(fn?: (plugin: Gzip) => void): this {
     const plugin = this.findPlugin('gzip', () => new Gzip(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
+  public pluginDefine(fn?: (plugin: Define) => void): this {
+    const plugin = this.findPlugin('define', () => new Define(this));
 
     fn?.(plugin);
 
