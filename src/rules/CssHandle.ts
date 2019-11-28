@@ -39,6 +39,14 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
     }
   }
 
+  public disableCssModules(): this {
+    this.setOptions('css-loader', (options) => {
+      options.modules = false;
+    });
+
+    return this;
+  }
+
   protected loaders(): RuleSetLoader[] {
     return [
       {
