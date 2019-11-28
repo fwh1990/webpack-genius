@@ -10,6 +10,7 @@ export class Html extends PluginHandle {
     html5: true,
     hash: false,
     chunksSortMode: 'dependency',
+    title: this.genius.getPackageField('description') || this.genius.getPackageField('name'),
     minify: {
       collapseWhitespace: true,
       minifyJS: this.genius.isProd(),

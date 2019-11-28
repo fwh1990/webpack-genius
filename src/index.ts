@@ -25,9 +25,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .devServer(setDevServer)
       .miniCss(genius.isProd())
       .pluginClean()
-      .pluginHtml((plugin) => {
-        plugin.setTitle(genius.getPackageField('name') || 'Webpack Genius');
-      })
+      .pluginHtml()
       .pluginHotModuleReplace((plugin) => {
         plugin.enable(genius.isDev());
       })
