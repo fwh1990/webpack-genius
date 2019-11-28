@@ -104,6 +104,10 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       {
         loader: 'babel-loader',
         options: {
+          // Disable file babel.config.js
+          configFile: false,
+          // Disable file .babelrc ??
+          babelrc: false,
           cacheCompression: false,
           cacheDirectory: this.genius.isHot(),
           plugins: [
