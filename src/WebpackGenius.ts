@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import * as webpack from 'webpack';
-import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule } from 'webpack';
+import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule, Module } from 'webpack';
 import clonedeep from 'lodash.clonedeep';
 import { HotModule } from './plugins/HotModule';
 import { PluginHandle } from './plugins/PluginHandle';
@@ -89,7 +89,7 @@ export class WebpackGenius {
   }
 
   public switchChunkHash(hashNumber: number = 10): string {
-    if (this.environment === 'development') {
+    if (this.isHot()) {
       return 'chunkhash.[id]';
     }
 
@@ -97,7 +97,7 @@ export class WebpackGenius {
   }
 
   public switchContentHash(hashNumber: number = 10): string {
-    if (this.environment === 'development') {
+    if (this.isHot()) {
       return 'contenthash.[id]';
     }
 
@@ -118,6 +118,12 @@ export class WebpackGenius {
 
   public mode(mode: Configuration['mode'] | ((webpack: this) => Configuration['mode'])): this {
     this.config.mode = typeof mode === 'function' ? mode(this) : mode;
+
+    return this;
+  }
+
+  public noParse(pattern: Module['noParse']): this {
+    this.config.module!.noParse = pattern;
 
     return this;
   }
