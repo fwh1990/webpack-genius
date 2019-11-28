@@ -21,6 +21,7 @@ import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
 import { AliasReactDom } from './rules/AliasReactDom';
 import { Gzip } from './plugins/Gzip';
+import { Copy } from './plugins/Copy';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -216,6 +217,14 @@ export class WebpackGenius {
 
   public pluginHotModuleReplace(fn?: (plugin: HotModule) => void): this {
     const plugin = this.findPlugin('hot-module-replace', () => new HotModule(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
+  public pluginCopy(fn?: (plugin: Copy) => void): this {
+    const plugin = this.findPlugin('copy', () => new Copy(this));
 
     fn?.(plugin);
 
