@@ -2,7 +2,7 @@ import { DefinePlugin, Plugin } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 
 export class Define extends PluginHandle {
-  public readonly definition = {};
+  protected readonly definition = {};
 
   public add(key: string, value: string | number | boolean): this {
     this.definition[key] = JSON.stringify(value);
