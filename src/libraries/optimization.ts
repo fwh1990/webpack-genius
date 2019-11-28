@@ -4,7 +4,7 @@ import { WebpackGenius } from '../WebpackGenius';
 export const setOptimization = (config: Options.Optimization, webpack: WebpackGenius) => {
   config.nodeEnv = webpack.getEnvironment();
 
-  if (webpack.isDev()) {
+  if (webpack.isHot()) {
     config.removeAvailableModules = false;
     config.removeEmptyChunks = false;
     config.splitChunks = false;

@@ -41,13 +41,13 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       });
     }
 
-    if (this.genius.isDev() && this.genius.hasPackage('react')) {
+    if (this.genius.isHot() && this.genius.hasPackage('react')) {
       this.setOptions('babel-loader', (options) => {
         options.plugins?.push(['react-hot-loader/babel']);
       });
     }
 
-    if (this.genius.isProd() && this.genius.hasPackage('lodash')) {
+    if (this.genius.isBuild() && this.genius.hasPackage('lodash')) {
       this.setOptions('babel-loader', (options) => {
         options.plugins?.push([
           'babel-plugin-import',
@@ -85,7 +85,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       {
         loader: 'babel-loader',
         options: {
-          cacheDirectory: this.genius.isDev(),
+          cacheDirectory: this.genius.isHot(),
           plugins: [
             [
               '@babel/plugin-syntax-dynamic-import',

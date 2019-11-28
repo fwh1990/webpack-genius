@@ -12,8 +12,8 @@ export const setStats = (_: Options.Stats, genius: WebpackGenius): Options.Stats
     source: false,
     warnings: true,
     // 打包后的列表
-    assets: genius.isProd(),
-    entrypoints: genius.isProd(),
+    assets: genius.isBuild(),
+    entrypoints: genius.isBuild(),
     children: false,
   };
 };

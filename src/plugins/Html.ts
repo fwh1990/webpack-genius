@@ -13,8 +13,8 @@ export class Html extends PluginHandle {
     title: this.genius.getPackageField('description') || this.genius.getPackageField('name'),
     minify: {
       collapseWhitespace: true,
-      minifyJS: this.genius.isProd(),
-      minifyCSS: this.genius.isProd(),
+      minifyJS: this.genius.isBuild(),
+      minifyCSS: this.genius.isBuild(),
       removeComments: true,
     },
   };

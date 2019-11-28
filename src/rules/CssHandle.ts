@@ -18,7 +18,7 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
   protected onInit() {
     super.onInit();
 
-    if (this.genius.isDev()) {
+    if (this.genius.isHot()) {
       this.addLoaderBefore(
         {
           loader: 'style-loader',

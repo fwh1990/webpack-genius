@@ -23,14 +23,14 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .optimization(setOptimization)
       .resolve(setResolve)
       .devServer(setDevServer)
-      .miniCss(genius.isProd())
+      .miniCss(genius.isBuild())
       .pluginClean()
       .pluginHtml()
       .pluginHotModuleReplace((plugin) => {
-        plugin.enable(genius.isDev());
+        plugin.enable(genius.isHot());
       })
       .pluginHashedModule((plugin) => {
-        plugin.enable(genius.isProd());
+        plugin.enable(genius.isBuild());
       })
       .ruleTsx((rule) => {
         rule.enable(genius.hasPackage('typescript'));
@@ -44,8 +44,8 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleAntd((rule) => {
         rule.enable(genius.hasPackage('antd'));
       })
-      .ruleHotReactDom((rule) => {
-        rule.enable(genius.hasPackage('react-dom') && genius.isDev());
+      .ruleAliasReactDom((rule) => {
+        rule.enable(genius.hasPackage('react-dom') && genius.isHot());
       })
       .ruleAsset()
       .ruleHtml();

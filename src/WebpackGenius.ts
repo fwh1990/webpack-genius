@@ -79,12 +79,12 @@ export class WebpackGenius {
     return this.environment;
   }
 
-  public isProd(): boolean {
-    return this.environment === 'production';
+  public isHot(): boolean {
+    return process.env.IS_HOT === 'yes';
   }
 
-  public isDev(): boolean {
-    return this.environment === 'development';
+  public isBuild(): boolean {
+    return process.env.IS_HOT !== 'yes';
   }
 
   public switchChunkHash(hashNumber: number = 10): string {
@@ -192,7 +192,7 @@ export class WebpackGenius {
   public entry(entry: NonNullable<Configuration['entry']>): this {
     this.config.entry = clonedeep(entry);
 
-    if (this.isDev() && this.hasPackage('react')) {
+    if (this.isHot() && this.hasPackage('react')) {
       this.config.entry = this.prependEntry(this.config.entry);
     }
 
@@ -341,7 +341,7 @@ export class WebpackGenius {
     return this;
   }
 
-  public ruleHotReactDom(fn?: (rule: AliasReactDom) => void): this {
+  public ruleAliasReactDom(fn?: (rule: AliasReactDom) => void): this {
     const rule = this.findRule('react-dom', () => new AliasReactDom(this));
 
     fn?.(rule);
