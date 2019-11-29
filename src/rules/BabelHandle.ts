@@ -128,15 +128,6 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
                 loose: false,
               },
             ],
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                corejs: {
-                  version: 3,
-                  proposals: true,
-                },
-              },
-            ],
           ],
           presets: [
             [
