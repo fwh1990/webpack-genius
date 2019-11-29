@@ -6,15 +6,11 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 export class Html extends PluginHandle {
   protected readonly clones: Html[] = [];
   protected config: HtmlWebpackPlugin.Options = {
-    filename: 'index.html',
-    html5: true,
-    hash: false,
-    chunksSortMode: 'dependency',
     title: this.genius.getPackageField('description') || this.genius.getPackageField('name'),
-    minify: {
+    minify: this.genius.isHot() ? false : {
       collapseWhitespace: true,
-      minifyJS: this.genius.isBuild(),
-      minifyCSS: this.genius.isBuild(),
+      minifyJS: true,
+      minifyCSS: true,
       removeComments: true,
     },
   };
