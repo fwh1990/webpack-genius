@@ -27,7 +27,7 @@ export class Asset extends RuleHandle<AssetOptions> {
       {
         loader: 'url-loader',
         options: {
-          // Transform to bese64
+          // Transform to base64
           limit: this.genius.isBuild() ? 2048 : false,
           name: 'assets/[name].[hash:12].[ext]',
           esModule: false,
