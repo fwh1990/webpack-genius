@@ -6,7 +6,7 @@ import { setMode } from './libraries/mode';
 import { setResolve } from './libraries/resolve';
 import { setDevtool } from './libraries/devtool';
 import { Configuration } from 'webpack';
-import { setDevServer } from './libraries/dev';
+import { setDevServer } from './libraries/devserver';
 import { setOptimization } from './libraries/optimization';
 
 const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void): Function => {
