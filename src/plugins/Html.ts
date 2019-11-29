@@ -6,6 +6,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 export class Html extends PluginHandle {
   protected readonly clones: Html[] = [];
   protected config: HtmlWebpackPlugin.Options = {
+    meta: false,
     title: this.genius.getPackageField('description') || this.genius.getPackageField('name'),
     minify: this.genius.isHot() ? false : {
       collapseWhitespace: true,
