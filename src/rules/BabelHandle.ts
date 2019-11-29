@@ -2,10 +2,6 @@ import { RuleHandle } from './RuleHandle';
 import { RuleSetLoader, RuleSetRule } from 'webpack';
 
 export interface BabelOptions {
-  'cache-loader': {
-    read?: (cacheKey: string, callback: Function) => void;
-    write?: (cacheKey: string, data: any, callback: Function) => void;
-  },
   'thread-loader': {
     workers: number;
     workerParallelJobs: number;
@@ -20,8 +16,6 @@ export interface BabelOptions {
 }
 
 export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends RuleHandle<T> {
-  protected readonly cacheData: Record<string, any> = {};
-
   onInit() {
     super.onInit();
 
@@ -86,22 +80,6 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
 
   protected loaders(): RuleSetLoader[] {
     return [
-      {
-        loader: 'cache-loader',
-        options: {
-          read: (cacheKey, callback) => {
-            if (this.cacheData[cacheKey]) {
-              callback(null, this.cacheData[cacheKey]);
-            } else {
-              callback(true);
-            }
-          },
-          write: (cacheKey, data, callback) => {
-            this.cacheData[cacheKey] = data;
-            callback();
-          }
-        },
-      },
       {
         loader: 'thread-loader',
         options: {
