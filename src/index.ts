@@ -24,7 +24,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .resolve(setResolve)
       .devServer(setDevServer)
       .miniCss(genius.isBuild())
-      .pluginClean()
+      .pluginClean((plugin) => {
+        plugin.enable(genius.isBuild());
+      })
       .pluginHtml()
       .pluginHotModuleReplace((plugin) => {
         plugin.enable(genius.isHot());
