@@ -6,7 +6,11 @@ export interface BabelOptions {
     read?: (cacheKey: string, callback: Function) => void;
     write?: (cacheKey: string, data: any, callback: Function) => void;
   },
-  'thread-loader': {},
+  'thread-loader': {
+    workers: number;
+    workerParallelJobs: number;
+    poolTimeout: number;
+  },
   'babel-loader': {
     cacheCompression: boolean;
     cacheDirectory: string | boolean;
@@ -100,6 +104,10 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       },
       {
         loader: 'thread-loader',
+        options: {
+          workerParallelJobs: 50,
+          poolTimeout: Infinity,
+        },
       },
       {
         loader: 'babel-loader',
