@@ -84,7 +84,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
         loader: 'thread-loader',
         options: {
           workerParallelJobs: 50,
-          poolTimeout: Infinity,
+          poolTimeout: 2000,
         },
       },
       {
