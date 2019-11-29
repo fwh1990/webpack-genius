@@ -10,7 +10,7 @@ export interface BabelOptions {
     workers: number;
     workerParallelJobs: number;
     poolTimeout: number;
-  },
+  };
   'babel-loader': {
     cacheCompression: boolean;
     cacheDirectory: string | boolean;
