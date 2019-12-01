@@ -1,5 +1,6 @@
 import { RuleHandle } from './RuleHandle';
 import { RuleSetLoader, RuleSetRule } from 'webpack';
+import path from 'path';
 
 export interface BabelOptions {
   'thread-loader': {
@@ -48,6 +49,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     if (this.genius.isHot() && this.genius.hasPackage('react')) {
       this.setOptions('babel-loader', (options) => {
         options.plugins?.push(['react-hot-loader/babel']);
+        options.plugins?.push([path.join(__dirname, '..', 'misc', 'react-hot-loader-injection.js')]);
       });
     }
 
