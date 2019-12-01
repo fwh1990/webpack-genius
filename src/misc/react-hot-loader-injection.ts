@@ -19,7 +19,7 @@ module.exports = () => {
           // @ts-ignore
           path.parentPath.insertBefore(babelTypes.importDeclaration(
             [babelTypes.importDefaultSpecifier(babelTypes.identifier(HotName))],
-            babelTypes.stringLiteral(require.resolve('webpack-genius/hot/react'))
+            babelTypes.stringLiteral(require.resolve('webpack-genius/misc/hot-react'))
           ));
 
           dom.replaceWith(
