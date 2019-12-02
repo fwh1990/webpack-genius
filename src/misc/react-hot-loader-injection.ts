@@ -15,7 +15,7 @@ export default () => {
           // @ts-ignore
           const dom = path.get('arguments.0');
           // Avoid duplicated import
-          const HotName = 'WebpackGeniusHot' + Date.now() + '-' + Math.random();
+          const HotName = 'WebpackGeniusHot' + Date.now();
           let parentPath = path.parentPath;
 
           while (parentPath.parentPath.type !== 'Program') {
