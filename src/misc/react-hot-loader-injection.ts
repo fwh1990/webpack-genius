@@ -1,6 +1,6 @@
 import * as babelTypes from '@babel/types';
 
-module.exports = () => {
+export default () => {
   return {
     visitor: {
       CallExpression(path: { node: babelTypes.CallExpression }) {
