@@ -3,7 +3,7 @@ import * as babelTypes from '@babel/types';
 export default () => {
   return {
     visitor: {
-      CallExpression(path: { node: babelTypes.CallExpression }) {
+      CallExpression(path: { node: babelTypes.CallExpression, parentPath: any }) {
         if (
           path.node.callee &&
           path.node.callee.type === 'MemberExpression' &&
@@ -14,10 +14,15 @@ export default () => {
         ) {
           // @ts-ignore
           const dom = path.get('arguments.0');
-          const HotName = 'WebpackGeniusHot';
+          // Avoid duplicated import
+          const HotName = 'WebpackGeniusHot' + Date.now() + '-' + Math.random();
+          let parentPath = path.parentPath;
 
-          // @ts-ignore
-          path.parentPath.insertBefore(babelTypes.importDeclaration(
+          while (parentPath.parentPath.type !== 'Program') {
+            parentPath = parentPath.parentPath;
+          }
+
+          parentPath.insertBefore(babelTypes.importDeclaration(
             [babelTypes.importDefaultSpecifier(babelTypes.identifier(HotName))],
             babelTypes.stringLiteral(require.resolve('webpack-genius/misc/hot-react'))
           ));
