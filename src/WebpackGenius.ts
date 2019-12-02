@@ -23,6 +23,7 @@ import { AliasReactDom } from './rules/AliasReactDom';
 import { Gzip } from './plugins/Gzip';
 import { Copy } from './plugins/Copy';
 import { Define } from './plugins/Define';
+import { CssNodeModules } from './rules/CssNodeModules';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -302,6 +303,14 @@ export class WebpackGenius {
 
   public ruleJsx(fn?: (rule: Jsx) => void): this {
     const rule = this.findRule('jsx', () => new Jsx(this));
+
+    fn?.(rule);
+
+    return this;
+  }
+
+  public ruleCssNodeModules(fn?: (rule: CssNodeModules) => void): this {
+    const rule = this.findRule('css-node-modules', () => new CssNodeModules(this));
 
     fn?.(rule);
 

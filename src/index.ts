@@ -41,6 +41,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
         rule.enable(genius.hasPackage('react'));
       })
       .ruleCss()
+      .ruleCssNodeModules()
       .ruleScss()
       .ruleLess()
       .ruleAntd((rule) => {
