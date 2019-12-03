@@ -21,63 +21,68 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     super.onInit();
 
     if (this.genius.hasPackage('antd')) {
-      this.setOptions('babel-loader', (options) => {
-        options.plugins?.push([
-          'babel-plugin-import',
-          {
-            libraryName: 'antd',
-            style: true,
-          },
-          'antd',
-        ]);
-      });
+      this.addBabelPlugin([
+        'babel-plugin-import',
+        {
+          libraryName: 'antd',
+          style: true,
+        },
+        'antd',
+      ]);
     }
 
     if (this.genius.hasPackage('antd-mobile')) {
-      this.setOptions('babel-loader', (options) => {
-        options.plugins?.push([
-          'babel-plugin-import',
-          {
-            libraryName: 'antd-mobile',
-            style: true,
-          },
-          'antd-mobile',
-        ]);
-      });
+      this.addBabelPlugin([
+        'babel-plugin-import',
+        {
+          libraryName: 'antd-mobile',
+          style: true,
+        },
+        'antd-mobile',
+      ]);
     }
 
     if (this.genius.isHot() && this.genius.hasPackage('react')) {
-      this.setOptions('babel-loader', (options) => {
-        options.plugins?.push(['react-hot-loader/babel']);
-        options.plugins?.push([path.join(__dirname, '..', 'misc', 'react-hot-loader-injection.js')]);
-      });
+      this
+        .addBabelPlugin(['react-hot-loader/babel'])
+        .addBabelPlugin([path.join(__dirname, '..', 'misc', 'react-hot-loader-injection.js')]);
     }
 
     if (this.genius.isBuild() && this.genius.hasPackage('lodash')) {
-      this.setOptions('babel-loader', (options) => {
-        options.plugins?.push([
-          'babel-plugin-import',
-          {
-            libraryName: 'lodash',
-            libraryDirectory: '',
-            camel2DashComponentName: false,
-          },
-          'lodash',
-        ])
-      });
+      this.addBabelPlugin([
+        'babel-plugin-import',
+        {
+          libraryName: 'lodash',
+          libraryDirectory: '',
+          camel2DashComponentName: false,
+        },
+        'lodash',
+      ]);
     }
 
     if (this.genius.hasPackage('react')) {
-      this.setOptions('babel-loader', (options) => {
-        options.presets?.push(['@babel/preset-react']);
-      });
+      this.addBabelPreset(['@babel/preset-react']);
     }
 
     if (this.genius.hasPackage('typescript')) {
-      this.setOptions('babel-loader', (options) => {
-        options.presets?.push(['@babel/preset-typescript']);
-      });
+      this.addBabelPreset(['@babel/preset-typescript']);
     }
+  }
+
+  public addBabelPlugin(plugin: [string] | [string, Record<string, any>] | [string, Record<string, any>, string]): this {
+    this.setOptions('babel-loader', (loader) => {
+      loader.plugins?.push(plugin);
+    });
+
+    return this;
+  }
+
+  public addBabelPreset(preset: [string] | [string, Record<string, any>]): this {
+    this.setOptions('babel-loader', (loader) => {
+      loader.presets?.push(preset);
+    });
+
+    return this;
   }
 
   protected loaders(): RuleSetLoader[] {
@@ -100,9 +105,15 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
           cacheDirectory: this.genius.isHot(),
           plugins: [
             [
+              '@babel/plugin-proposal-decorators',
+              {
+                legacy: true,
+              },
+            ],
+            [
               '@babel/plugin-proposal-class-properties',
               {
-                loose: false,
+                loose: true,
               },
             ],
             [

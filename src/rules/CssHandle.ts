@@ -1,5 +1,6 @@
 import { RuleHandle } from './RuleHandle';
 import { RuleSetLoader } from 'webpack';
+import { Plugin } from 'postcss';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import autoprefixer from 'autoprefixer';
 
@@ -10,7 +11,7 @@ export interface CssOptions {
   };
   'postcss-loader': {
     ident: string;
-    plugins: any[];
+    plugins: Plugin<any>[];
   };
 }
 
@@ -42,6 +43,14 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
   public disableCssModules(): this {
     this.setOptions('css-loader', (options) => {
       options.modules = false;
+    });
+
+    return this;
+  }
+
+  public addPostCssPlugin(plugin: Plugin<any>): this {
+    this.setOptions('postcss-loader', (options) => {
+      options.plugins?.push(plugin);
     });
 
     return this;
