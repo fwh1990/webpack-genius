@@ -109,7 +109,13 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
               '@babel/plugin-proposal-optional-chaining',
               {
                 loose: false,
-              }
+              },
+            ],
+            [
+              '@babel/plugin-proposal-nullish-coalescing-operator',
+              {
+                loose: false,
+              },
             ],
           ],
           presets: [

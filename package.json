@@ -1,6 +1,6 @@
 {
   "name": "webpack-genius",
-  "version": "4.6.6",
+  "version": "4.6.7",
   "main": "index.js",
   "repository": "git@github.com:fwh1990/webpack-genius.git",
   "author": "范文华 <531362022@qq.com>",
@@ -19,6 +19,7 @@
   "dependencies": {
     "@babel/core": "^7.7.4",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
     "@babel/plugin-proposal-optional-chaining": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
