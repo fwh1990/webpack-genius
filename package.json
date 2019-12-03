@@ -1,6 +1,6 @@
 {
   "name": "webpack-genius",
-  "version": "4.6.2",
+  "version": "4.6.5",
   "main": "index.js",
   "repository": "git@github.com:fwh1990/webpack-genius.git",
   "author": "范文华 <531362022@qq.com>",
@@ -19,7 +19,6 @@
   "dependencies": {
     "@babel/core": "^7.7.4",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
@@ -36,7 +35,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.5",
-    "css-loader": "^3.2.0",
+    "css-loader": "^3.2.1",
     "file-loader": "^5.0.2",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",

@@ -100,9 +100,6 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
           cacheDirectory: this.genius.isHot(),
           plugins: [
             [
-              '@babel/plugin-syntax-dynamic-import',
-            ],
-            [
               '@babel/plugin-proposal-class-properties',
               {
                 loose: false,
