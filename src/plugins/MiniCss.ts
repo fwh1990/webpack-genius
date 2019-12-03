@@ -5,8 +5,8 @@ import { PluginHandle } from './PluginHandle';
 // https://github.com/webpack-contrib/mini-css-extract-plugin#extracting-all-css-in-a-single-file
 export class MiniCss extends PluginHandle {
   protected readonly config: MiniCssExtractPlugin.PluginOptions = {
-    filename: `styles/style.[name].${this.genius.switchContentHash()}.css`,
-    chunkFilename: `styles/style.[id].${this.genius.switchContentHash()}.css`,
+    filename: `styles/[name].${this.genius.switchContentHash()}.css`,
+    chunkFilename: `styles/chunk.${this.genius.switchContentHash()}.css`,
     ignoreOrder: true,
   };
 
