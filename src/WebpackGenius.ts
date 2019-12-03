@@ -89,7 +89,7 @@ export class WebpackGenius {
     return process.env.IS_HOT !== 'yes';
   }
 
-  public switchChunkHash(hashNumber: number = 10): string {
+  public switchChunkHash(hashNumber: number = 15): string {
     if (this.isHot()) {
       return 'chunkhash.[id]';
     }
@@ -97,7 +97,7 @@ export class WebpackGenius {
     return `[chunkhash:${hashNumber}]`;
   }
 
-  public switchContentHash(hashNumber: number = 10): string {
+  public switchContentHash(hashNumber: number = 15): string {
     if (this.isHot()) {
       return 'contenthash.[id]';
     }
