@@ -105,6 +105,12 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
                 loose: false,
               },
             ],
+            [
+              '@babel/plugin-proposal-optional-chaining',
+              {
+                loose: false,
+              }
+            ],
           ],
           presets: [
             [
