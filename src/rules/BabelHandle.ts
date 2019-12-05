@@ -107,13 +107,13 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
             [
               '@babel/plugin-proposal-decorators',
               {
-                legacy: true,
+                decoratorsBeforeExport: true,
               },
             ],
             [
               '@babel/plugin-proposal-class-properties',
               {
-                loose: true,
+                loose: false,
               },
             ],
             [
