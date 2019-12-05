@@ -5,6 +5,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import autoprefixer from 'autoprefixer';
 
 export interface CssOptions {
+  'cache-loader': {};
   'style-loader': {};
   'css-loader': {
     modules: boolean;
@@ -20,12 +21,9 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
     super.onInit();
 
     if (this.genius.isHot()) {
-      this.addLoaderBefore(
-        {
-          loader: 'style-loader',
-        },
-        'css-loader'
-      );
+      this
+        .addLoaderBefore({ loader: 'style-loader' }, 'css-loader')
+        .addLoaderBefore({ loader: 'cache-loader' });
     } else {
       this.addLoaderBefore(
         {

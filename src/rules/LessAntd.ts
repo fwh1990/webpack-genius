@@ -5,10 +5,7 @@ export class LessAntd extends Less {
   protected onInit() {
     super.onInit();
 
-    this.setOptions('css-loader', (options) => {
-      options.modules = false;
-    });
-
+    this.disableCssModules();
     this.setOptions('less-loader', (options) => {
       options.modifyVars = {};
       options.javascriptEnabled = true;
