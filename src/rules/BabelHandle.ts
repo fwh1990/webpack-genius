@@ -20,27 +20,18 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
   onInit() {
     super.onInit();
 
-    if (this.genius.hasPackage('antd')) {
-      this.addBabelPlugin([
-        'babel-plugin-import',
-        {
-          libraryName: 'antd',
-          style: true,
-        },
-        'antd',
-      ]);
-    }
-
-    if (this.genius.hasPackage('antd-mobile')) {
-      this.addBabelPlugin([
-        'babel-plugin-import',
-        {
-          libraryName: 'antd-mobile',
-          style: true,
-        },
-        'antd-mobile',
-      ]);
-    }
+    ['antd', 'antd-mobile'].forEach((item) => {
+      if (this.genius.hasPackage(item)) {
+        this.addBabelPlugin([
+          'babel-plugin-import',
+          {
+            libraryName: item,
+            style: true,
+          },
+          item,
+        ]);
+      }
+    });
 
     if (this.genius.isHot() && this.genius.hasPackage('react')) {
       this
