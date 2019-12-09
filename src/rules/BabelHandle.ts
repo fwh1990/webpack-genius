@@ -63,10 +63,6 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     if (this.genius.hasPackage('react')) {
       this.addBabelPreset(['@babel/preset-react']);
     }
-
-    if (this.genius.hasPackage('typescript')) {
-      this.addBabelPreset(['@babel/preset-typescript']);
-    }
   }
 
   public addBabelPlugin(plugin: [string] | [string, Record<string, any>] | [string, Record<string, any>, string]): this {
