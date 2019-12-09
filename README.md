@@ -1,6 +1,5 @@
 # Installation
 ```bash
-yarn add core-js
 yarn add webpack-genius --dev
 ```
 

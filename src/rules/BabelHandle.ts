@@ -128,13 +128,24 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
                 loose: false,
               },
             ],
+            [
+              '@babel/plugin-transform-runtime',
+              {
+                corejs: { version: 3, proposals: true },
+                helpers: this.genius.isBuild(),
+                regenerator: true,
+                useESModules: false,
+              },
+            ]
           ],
           presets: [
             [
               '@babel/preset-env',
               {
-                useBuiltIns: 'usage',
-                corejs: 3,
+                // Use @babel/plugin-transform-runtime instead
+                useBuiltIns: false,
+                // Warn: only has an effect when used alongside useBuiltIns: 'usage' or useBuiltIns: 'entry'
+                // corejs: 3,
                 loose: true,
                 modules: false,
               },
