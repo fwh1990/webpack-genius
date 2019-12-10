@@ -1,6 +1,6 @@
 {
   "name": "webpack-genius",
-  "version": "4.7.0",
+  "version": "4.7.1",
   "main": "index.js",
   "repository": "git@github.com:fwh1990/webpack-genius.git",
   "author": "范文华 <531362022@qq.com>",

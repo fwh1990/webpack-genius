@@ -27,6 +27,23 @@ export default () => {
             babelTypes.stringLiteral(require.resolve('webpack-genius/misc/hot-react'))
           ));
 
+          parentPath.insertBefore(
+            babelTypes.ifStatement(
+              babelTypes.memberExpression(babelTypes.identifier('module'), babelTypes.identifier('hot')),
+              babelTypes.blockStatement([
+                babelTypes.expressionStatement(
+                  babelTypes.callExpression(
+                    babelTypes.memberExpression(
+                      babelTypes.memberExpression(babelTypes.identifier('module'), babelTypes.identifier('hot')),
+                      babelTypes.identifier('accept')
+                    ),
+                    []
+                  )
+                )
+              ])
+            )
+          );
+
           dom.replaceWith(
             babelTypes.jsxElement(
               babelTypes.jsxOpeningElement(babelTypes.jsxIdentifier(HotName), [], false),
