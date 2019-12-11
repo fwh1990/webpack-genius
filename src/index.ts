@@ -8,6 +8,8 @@ import { setDevtool } from './libraries/devtool';
 import { Configuration } from 'webpack';
 import { setDevServer } from './libraries/devserver';
 import { setOptimization } from './libraries/optimization';
+import { getEntry } from './libraries/entry';
+import { getHtmlTemplate } from './libraries/template';
 
 const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void): Function => {
   return (env: string): Configuration => {
@@ -15,7 +17,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
 
     genius
       .target('web')
-      .entry(genius.getPackageField('main') ?? [])
+      .entry(getEntry(genius))
       .devtool(setDevtool)
       .mode(setMode)
       .output(setOutput)
@@ -27,7 +29,13 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .pluginClean((plugin) => {
         plugin.enable(genius.isBuild());
       })
-      .pluginHtml()
+      .pluginHtml((plugin) => {
+        const template = getHtmlTemplate();
+
+        if (template) {
+          plugin.setTemplate(template);
+        }
+      })
       .pluginHotModuleReplace((plugin) => {
         plugin.enable(genius.isHot());
       })
