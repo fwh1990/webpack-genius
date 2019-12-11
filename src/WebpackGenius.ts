@@ -207,6 +207,10 @@ export class WebpackGenius {
     return this;
   }
 
+  public getOriginalEntry(): Readonly<Configuration['entry']> {
+    return this.config.entry;
+  }
+
   public resolve(fn: (resolve: Resolve, webpack: this) => Resolve | void): this {
     const result = fn(this.config.resolve!, this);
 

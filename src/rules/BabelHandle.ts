@@ -39,6 +39,15 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
         .addBabelPlugin([path.join(__dirname, '..', 'misc', 'react-hot-loader-injection.js')]);
     }
 
+    if (this.genius.isHot()) {
+      this.addBabelPlugin([
+        path.join(__dirname, '..', 'misc', 'module-hot.js'),
+        {
+          entries: [],
+        },
+      ]);
+    }
+
     if (this.genius.isBuild() && this.genius.hasPackage('lodash')) {
       this.addBabelPlugin([
         'babel-plugin-import',
@@ -70,6 +79,37 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     });
 
     return this;
+  }
+
+  protected resetEntries() {
+    let list: string[] = [];
+    const entries = this.genius.getOriginalEntry();
+
+    if (entries) {
+      if (typeof entries === 'object') {
+        Object.keys(entries).forEach((key) => {
+          if (Array.isArray(entries[key])) {
+            list.push(...entries[key]);
+          } else {
+            list.push(entries[key]);
+          }
+        });
+      } else if (typeof entries === 'string') {
+        list.push(entries);
+      } else if (typeof entries === 'function') {
+        // TODO implements
+      }
+
+      list = list.map((item) => path.resolve(item));
+    }
+
+    this.setOptions('babel-loader', (loader) => {
+      const plugin = loader.plugins?.find((item) => item[0].indexOf('module-hot.js') >= 0);
+
+      if (plugin && plugin[1]) {
+        plugin[1].entries = list;
+      }
+    });
   }
 
   protected loaders(): RuleSetLoader[] {
@@ -153,6 +193,8 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
         item[0] = require.resolve(item[0]);
       });
     });
+
+    this.resetEntries();
 
     return super.collect();
   }
