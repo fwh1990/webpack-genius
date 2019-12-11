@@ -51,7 +51,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleScss()
       .ruleLess()
       .ruleAntd((rule) => {
-        rule.enable(genius.hasPackage('antd'));
+        rule.enable(['antd', 'antd-mobile'].some((item) => genius.hasPackage(item)));
       })
       .ruleAliasReactDom((rule) => {
         rule.enable(genius.hasPackage('react-dom') && genius.isHot());
