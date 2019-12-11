@@ -45,9 +45,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleTsx((rule) => {
         rule.enable(genius.hasPackage('typescript'));
       })
-      .ruleJsx((rule) => {
-        rule.enable(genius.hasPackage('react'));
-      })
+      .ruleJsx()
       .ruleCss()
       .ruleCssNodeModules()
       .ruleScss()
