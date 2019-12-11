@@ -5,6 +5,10 @@ import { WebpackGenius } from '../WebpackGenius';
 export const getEntry = (genius: WebpackGenius): string => {
   let entry: string = genius.getPackageField('main');
 
+  if (entry) {
+    entry = path.resolve(entry);
+  }
+
   if (entry && fs.existsSync(entry)) {
     return entry;
   }
