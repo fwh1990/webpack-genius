@@ -24,6 +24,7 @@ import { Gzip } from './plugins/Gzip';
 import { Copy } from './plugins/Copy';
 import { Define } from './plugins/Define';
 import { CssNodeModules } from './rules/CssNodeModules';
+import { Json5 } from './rules/Json5';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -371,6 +372,14 @@ export class WebpackGenius {
 
   public ruleAliasReactDom(fn?: (rule: AliasReactDom) => void): this {
     const rule = this.findRule('react-dom', () => new AliasReactDom(this));
+
+    fn?.(rule);
+
+    return this;
+  }
+
+  public ruleJson5(fn?: (rule: Json5) => void): this {
+    const rule = this.findRule('json5', () => new Json5(this));
 
     fn?.(rule);
 

@@ -57,7 +57,8 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
         rule.enable(genius.hasPackage('react-dom') && genius.isHot());
       })
       .ruleAsset()
-      .ruleHtml();
+      .ruleHtml()
+      .ruleJson5();
 
     fn?.(genius);
 

@@ -4545,6 +4545,15 @@ json3@^3.3.2:
   resolved "https://registry.npmjs.org/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
   integrity sha512-c7/8mbUsKigAbLkD5B010BK4D9LZm7A1pNItkEwiUZRpIN66exu/e7YQWysGun+TRKaJp8MhemM+VkfWv42aCA==
 
+json5-loader@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/json5-loader/-/json5-loader-3.0.0.tgz#def00e8cabe23160006d589df647a7a5ef266446"
+  integrity sha512-U89cCwdjQKhWaAgurRXObwVf+Q9dCdZZCNgyfU2VXoGJu3rxjzcvBiSoVMD7lU1Z54XnJOrkfUMfMy+gleOPYQ==
+  dependencies:
+    json5 "^2.1.0"
+    loader-utils "^1.2.3"
+    schema-utils "^1.0.0"
+
 json5@^0.5.0:
   version "0.5.1"
   resolved "https://registry.npmjs.org/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
