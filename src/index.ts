@@ -50,6 +50,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleCssNodeModules()
       .ruleScss()
       .ruleLess()
+      .ruleStylus()
       .ruleAntd((rule) => {
         rule.enable(['antd', 'antd-mobile'].some((item) => genius.hasPackage(item)));
       })
