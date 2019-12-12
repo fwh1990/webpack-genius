@@ -9,6 +9,9 @@ yarn add webpack-genius --dev
 * Inject React-Hot-Loader automatically
 * Faster rebuild
 
+# Demo
+[React Hooks](https://github.com/redux-model/demo-react-hooks)
+
 # Usage
 Create file `webpack.config.ts`
 ```typescript
