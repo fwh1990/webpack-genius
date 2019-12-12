@@ -17,9 +17,7 @@ Create file `webpack.config.ts`
 ```typescript
 import webpackGenius from 'webpack-genius';
 
-export default webpackGenius(3000, (genius) => {
-    genius.entry('./src/entries/index.tsx');
-});
+export default webpackGenius(3000);
 ```
 
 Add cli to you `package.json`
@@ -31,6 +29,19 @@ Add cli to you `package.json`
     }
 }
 ```
+
+### Change Entry
+Genius will search entry file automatically from `index`, `Index`, `src/index`, `src/Index` with one of this extensions `.js`, `.ts`, `.jsx`, `.tsx`
+
+Or you can override entry file:
+```typescript
+import webpackGenius from 'webpack-genius';
+
+export default webpackGenius(3000, (genius) => {
+    genius.entry('./src/entries/index.tsx');
+});
+```
+
 
 ### Change Host
 The default host is `0.0.0.0`, you may keep this IP address usually.
@@ -47,6 +58,9 @@ export default webpackGenius(3000, (genius) => {
 ```
 
 ### Point `index.html` to your own template
+Genius will search entry file automatically from `index`, `public/index`, `src/index`, `src/public/index`, `assets/index`, `src/assets/index` with one of this extensions `.html` `.htm`
+
+Or you can override html file:
 ```typescript
 import webpackGenius from 'webpack-genius';
 
