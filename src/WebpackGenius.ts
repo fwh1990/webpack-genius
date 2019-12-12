@@ -356,6 +356,32 @@ export class WebpackGenius {
     return this;
   }
 
+  // Shortcut for style rules
+  public disableCssModule(): this {
+    this.ruleStylus((rule) => {
+      rule.disableCssModules();
+    });
+
+    this.ruleScss((rule) => {
+      rule.disableCssModules();
+    });
+
+    this.ruleLess((rule) => {
+      rule.disableCssModules();
+    });
+
+    this.ruleCss((rule) => {
+      rule.disableCssModules();
+    });
+
+    // It's originally disabled
+    this.ruleCssNodeModules((rule) => {
+      rule.disableCssModules();
+    });
+
+    return this;
+  }
+
   public ruleAntd(fn?: (rule: LessAntd) => void): this {
     const rule = this.findRule('less-antd', () => new LessAntd(this));
 

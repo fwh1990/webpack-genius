@@ -4,10 +4,9 @@ yarn add webpack-genius --dev
 ```
 
 # Features
-* Transform all kind of extensions
-* Use css-modules for style
-* Inject React-Hot-Loader automatically
-* Faster rebuild
+* Transform all kinds of extensions
+* Hot-Reload for your project (Not refresh)
+* High performance
 
 # Demo
 [React Hooks](https://github.com/redux-model/demo-react-hooks)
@@ -70,5 +69,16 @@ export default webpackGenius(3000, (genius) => {
         .pluginHtml((plugin) => {
             plugin.setTemplate('./src/entries/index.html');
         });
+});
+```
+
+### Disable css-modules
+I recommend everybody use `css-modules` feature, but you can disable it if you don't like:
+```typescript
+import webpackGenius from 'webpack-genius';
+
+export default webpackGenius(3000, (genius) => {
+    genius
+        .disableCssModules();
 });
 ```
