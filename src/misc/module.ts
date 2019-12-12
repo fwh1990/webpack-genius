@@ -1,3 +1,8 @@
+declare module '*.md' {
+  const content: string;
+  export = content;
+}
+
 // Styles
 declare module '*.scss' {
   const content: {[className: string]: string};

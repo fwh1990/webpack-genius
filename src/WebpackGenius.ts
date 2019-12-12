@@ -26,6 +26,7 @@ import { Define } from './plugins/Define';
 import { CssNodeModules } from './rules/CssNodeModules';
 import { Json5 } from './rules/Json5';
 import { Stylus } from './rules/Stylus';
+import { Markdown } from './rules/Markdown';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -365,6 +366,14 @@ export class WebpackGenius {
 
   public ruleAsset(fn?: (rule: Asset) => void): this {
     const rule = this.findRule('asset', () => new Asset(this));
+
+    fn?.(rule);
+
+    return this;
+  }
+
+  public ruleMarkdown(fn?: (rule: Markdown) => void): this {
+    const rule = this.findRule('markdown', () => new Markdown(this));
 
     fn?.(rule);
 
