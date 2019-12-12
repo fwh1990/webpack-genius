@@ -25,7 +25,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .optimization(setOptimization)
       .resolve(setResolve)
       .devServer(setDevServer)
-      .miniCss(genius.isBuild())
+      .miniCss(genius.isBuild());
+
+    genius
       .pluginClean((plugin) => {
         plugin.enable(genius.isBuild());
       })
@@ -41,7 +43,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       })
       .pluginHashedModule((plugin) => {
         plugin.enable(genius.isBuild());
-      })
+      });
+
+    genius
       .ruleTsx((rule) => {
         rule.enable(genius.hasPackage('typescript'));
       })
