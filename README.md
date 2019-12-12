@@ -13,7 +13,7 @@ yarn add webpack-genius --dev
 [React Hooks](https://github.com/redux-model/demo-react-hooks)
 
 # Usage
-Create file `webpack.config.ts`
+Create file `webpack.config.ts`. Not `.js`
 ```typescript
 import webpackGenius from 'webpack-genius';
 
