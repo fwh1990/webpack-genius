@@ -3,6 +3,6 @@ import { RuleSetCondition } from 'webpack';
 
 export class Css extends CssHandle {
   protected test(): RuleSetCondition {
-    return /\.css$/;
+    return /\.css$/i;
   }
 }

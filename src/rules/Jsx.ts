@@ -3,6 +3,6 @@ import { RuleSetCondition } from 'webpack';
 
 export class Jsx extends BabelHandle {
   protected test(): RuleSetCondition {
-    return /\.jsx?$/;
+    return /\.jsx?$/i;
   }
 }

@@ -3,7 +3,7 @@ import { RuleSetCondition, RuleSetLoader } from 'webpack';
 
 export class Html extends RuleHandle {
   protected test(): RuleSetCondition {
-    return /\.html?$/;
+    return /\.html?$/i;
   }
 
   protected loaders(): RuleSetLoader[] {

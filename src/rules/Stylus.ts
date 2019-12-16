@@ -3,7 +3,7 @@ import { RuleSetCondition, RuleSetLoader } from 'webpack';
 
 export class Stylus extends CssHandle {
   protected test(): RuleSetCondition {
-    return /\.styl$/;
+    return /\.styl$/i;
   }
 
   protected loaders(): RuleSetLoader[] {

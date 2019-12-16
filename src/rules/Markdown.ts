@@ -9,7 +9,7 @@ interface Options {
 
 export class Markdown extends RuleHandle<Options> {
   protected test(): RuleSetCondition {
-    return /\.md$/;
+    return /\.md$/i;
   }
 
   protected loaders(): RuleSetLoader[] {

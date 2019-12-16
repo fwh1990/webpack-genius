@@ -11,7 +11,7 @@ export class AliasReactDom extends RuleHandle {
   }
 
   protected include(): RuleSetCondition | undefined {
-    return /node_modules[\\\/]react-dom/;
+    return /node_modules[\\\/]react-dom/i;
   }
 
   protected loaders(): RuleSetLoader[] {

@@ -10,7 +10,7 @@ interface LessOptions extends CssOptions {
 
 export class Less extends CssHandle<LessOptions> {
   protected test(): RuleSetCondition {
-    return /\.less$/;
+    return /\.less$/i;
   }
 
   protected loaders(): RuleSetLoader[] {

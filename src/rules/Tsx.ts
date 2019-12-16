@@ -8,6 +8,6 @@ export class Tsx extends BabelHandle {
   }
 
   protected test(): RuleSetCondition {
-    return /\.tsx?$/;
+    return /\.tsx?$/i;
   }
 }
