@@ -51,6 +51,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
         plugin
           .usePrefetch()
           .enable(genius.isBuild());
+      })
+      .pluginGzip((plugin) => {
+        plugin.enable(genius.isBuild());
       });
 
     genius
