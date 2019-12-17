@@ -53,7 +53,8 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
           .enable(genius.isBuild());
       })
       .pluginGzip((plugin) => {
-        plugin.enable(genius.isBuild());
+        // You can reopen it by `plugin.enable(genius.isBuild());`
+        plugin.enable(false);
       });
 
     genius
