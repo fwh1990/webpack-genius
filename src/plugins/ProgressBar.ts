@@ -8,6 +8,7 @@ export class ProgressBar extends PluginHandle {
     return [
       new ProgressBarPlugin({
         format: '[:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds) :msg',
+        width: 30,
       }),
     ];
   }
