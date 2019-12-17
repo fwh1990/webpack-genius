@@ -28,6 +28,7 @@ import { Json5 } from './rules/Json5';
 import { Stylus } from './rules/Stylus';
 import { Markdown } from './rules/Markdown';
 import { ProgressBar } from './plugins/ProgressBar';
+import { Preload } from './plugins/Preload';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -271,6 +272,14 @@ export class WebpackGenius {
     return this;
   }
 
+  public pluginPreload(fn?: (plugin: Preload) => void): this {
+    const plugin = this.findPlugin('preload', () => new Preload(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
   public pluginHtml(fn?: (plugin: HtmlPlugin) => void): this {
     const plugin = this.findPlugin('html', () => new HtmlPlugin(this));
 
@@ -442,9 +451,10 @@ export class WebpackGenius {
   public collect() {
     const config = clonedeep(this.config);
 
-    Object.values(this.plugins).forEach((plugin) => {
+    // Plugin has sequence sometimes
+    Object.values(this.plugins).reverse().forEach((plugin) => {
       if (plugin.isUsed()) {
-        config.plugins?.push(...plugin.collect());
+        config.plugins?.unshift(...plugin.collect());
       }
     });
 

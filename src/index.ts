@@ -46,6 +46,11 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       })
       .pluginProgressBar((plugin) => {
         plugin.enable(genius.isBuild());
+      })
+      .pluginPreload((plugin) => {
+        plugin
+          .usePrefetch()
+          .enable(genius.isBuild());
       });
 
     genius
