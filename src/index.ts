@@ -43,6 +43,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       })
       .pluginHashedModule((plugin) => {
         plugin.enable(genius.isBuild());
+      })
+      .pluginProgressBar((plugin) => {
+        plugin.enable(genius.isBuild());
       });
 
     genius

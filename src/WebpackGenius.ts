@@ -27,6 +27,7 @@ import { CssNodeModules } from './rules/CssNodeModules';
 import { Json5 } from './rules/Json5';
 import { Stylus } from './rules/Stylus';
 import { Markdown } from './rules/Markdown';
+import { ProgressBar } from './plugins/ProgressBar';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -256,6 +257,14 @@ export class WebpackGenius {
 
   public pluginDefine(fn?: (plugin: Define) => void): this {
     const plugin = this.findPlugin('define', () => new Define(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
+  public pluginProgressBar(fn?: (plugin: ProgressBar) => void): this {
+    const plugin = this.findPlugin('progress-bar', () => new ProgressBar(this));
 
     fn?.(plugin);
 
