@@ -9,6 +9,7 @@ export interface CssOptions {
   'style-loader': {};
   'css-loader': {
     modules: boolean;
+    esModule: boolean;
   };
   'postcss-loader': {
     ident: string;
@@ -60,6 +61,7 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
         loader: 'css-loader',
         options: {
           modules: true,
+          esModule: false,
         },
       },
       {
