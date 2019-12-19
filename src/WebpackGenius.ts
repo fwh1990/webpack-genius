@@ -19,7 +19,6 @@ import { Scss } from './rules/Scss';
 import { Less } from './rules/Less';
 import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
-import { AliasReactDom } from './rules/AliasReactDom';
 import { Gzip } from './plugins/Gzip';
 import { Copy } from './plugins/Copy';
 import { Define } from './plugins/Define';
@@ -29,6 +28,7 @@ import { Stylus } from './rules/Stylus';
 import { Markdown } from './rules/Markdown';
 import { ProgressBar } from './plugins/ProgressBar';
 import { Preload } from './plugins/Preload';
+import { ReactRefresh } from './plugins/ReactRefresh';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -203,11 +203,7 @@ export class WebpackGenius {
   }
 
   public entry(entry: NonNullable<Configuration['entry']>): this {
-    this.config.entry = clonedeep(entry);
-
-    if (this.isHot() && this.hasPackage('react')) {
-      this.config.entry = this.prependEntry(this.config.entry);
-    }
+    this.config.entry = entry;
 
     return this;
   }
@@ -234,6 +230,14 @@ export class WebpackGenius {
 
   public pluginHotModuleReplace(fn?: (plugin: HotModule) => void): this {
     const plugin = this.findPlugin('hot-module-replace', () => new HotModule(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
+  public pluginReactRefresh(fn?: (plugin: ReactRefresh) => void): this {
+    const plugin = this.findPlugin('react-refresh', () => new ReactRefresh(this));
 
     fn?.(plugin);
 
@@ -432,14 +436,6 @@ export class WebpackGenius {
     return this;
   }
 
-  public ruleAliasReactDom(fn?: (rule: AliasReactDom) => void): this {
-    const rule = this.findRule('react-dom', () => new AliasReactDom(this));
-
-    fn?.(rule);
-
-    return this;
-  }
-
   public ruleJson5(fn?: (rule: Json5) => void): this {
     const rule = this.findRule('json5', () => new Json5(this));
 
@@ -472,34 +468,6 @@ export class WebpackGenius {
     }
 
     return config;
-  }
-
-  protected prependEntry(entry: NonNullable<Configuration['entry']>): NonNullable<Configuration['entry']> {
-    const hotPatch: Configuration['entry'] = ['react-hot-loader/patch'];
-
-    if (typeof entry === 'function') {
-      return () => Promise.resolve(entry()).then((item) => {
-        const newItem = this.prependEntry(item);
-
-        if (typeof newItem === 'function') {
-          throw new TypeError('[webpack.entry] Do not return another function by function.');
-        }
-
-        return newItem;
-      });
-    }
-
-    if (typeof entry === 'object' && !Array.isArray(entry)) {
-      const clone = {};
-
-      Object.keys(entry).forEach((key) => {
-        clone[key] = hotPatch.concat(entry[key]);
-      });
-
-      return clone;
-    }
-
-    return hotPatch.concat(entry);
   }
 
   protected findPlugin<T extends PluginHandle>(name: string, or: () => T): T {

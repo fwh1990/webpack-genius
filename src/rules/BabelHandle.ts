@@ -34,9 +34,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     });
 
     if (this.genius.isHot() && this.genius.hasPackage('react')) {
-      this
-        .addBabelPlugin(['react-hot-loader/babel'])
-        .addBabelPlugin([path.join(__dirname, '..', 'misc', 'react-hot-loader-injection.js')]);
+      this.addBabelPlugin(['react-refresh/babel']);
     }
 
     if (this.genius.isHot()) {

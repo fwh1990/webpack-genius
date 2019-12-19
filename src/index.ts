@@ -44,6 +44,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .pluginHashedModule((plugin) => {
         plugin.enable(genius.isBuild());
       })
+      .pluginReactRefresh((plugin) => {
+        plugin.enable(genius.isHot());
+      })
       .pluginProgressBar((plugin) => {
         plugin.enable(genius.isBuild());
       })
@@ -69,9 +72,6 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .ruleStylus()
       .ruleAntd((rule) => {
         rule.enable(['antd', 'antd-mobile'].some((item) => genius.hasPackage(item)));
-      })
-      .ruleAliasReactDom((rule) => {
-        rule.enable(genius.hasPackage('react-dom') && genius.isHot());
       })
       .ruleAsset()
       .ruleHtml()

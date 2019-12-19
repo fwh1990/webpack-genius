@@ -18,7 +18,7 @@ export const setDevServer = (_: WebpackDevServer.Configuration, genius: WebpackG
     overlay: true,
     open: true,
     stats: genius.collect().stats,
-    transportMode: 'ws',
+    // transportMode: 'ws',
     watchOptions: {
       aggregateTimeout: 1,
       ignored: /node_modules/,
