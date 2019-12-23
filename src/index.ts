@@ -75,7 +75,6 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       })
       .ruleAsset()
       .ruleHtml()
-      .ruleMarkdown()
       .ruleJson5();
 
     fn?.(genius);
