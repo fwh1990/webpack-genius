@@ -68,8 +68,8 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
         loader: 'postcss-loader',
         options: {
           // https://github.com/postcss/postcss-loader#plugins
-          ident: 'postcss',
-          plugins: [autoprefixer],
+          ident: 'postcss-' + this.constructor.name,
+          plugins: [autoprefixer()],
         },
       },
     ];
