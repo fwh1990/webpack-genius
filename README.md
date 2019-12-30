@@ -1,4 +1,13 @@
 # Installation
+
+**For chinese developers:** you'd better add taobao mirror before everything start. Or you may fail to install.
+```bash
+yarn config set registry https://registry.npm.taobao.org
+yarn config set sass_binary_site http://npm.taobao.org/mirrors/node-sass
+```
+
+**For all developers:**
+
 ```bash
 yarn add webpack-genius --dev
 ```
