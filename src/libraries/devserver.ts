@@ -30,10 +30,12 @@ export const setDevServer = (_: WebpackDevServer.Configuration, genius: WebpackG
     },
     after: () => {
       if (genius.isOpenBrowser()) {
-        const host = genius.collect().devServer?.host ?? '0.0.0.0';
+        const collect = genius.collect();
+        const host = collect.devServer?.host ?? '0.0.0.0';
         const realHost = host === '0.0.0.0' ? 'localhost' : host;
+        const protocol = collect.devServer?.http2 || collect.devServer?.https ? 'https' : 'http';
 
-        setTimeout(() => openBrowser(`http://${realHost}:${port}/`), 2000);
+        setTimeout(() => openBrowser(`${protocol}://${realHost}:${port}/`), 3000);
       }
     },
   };
