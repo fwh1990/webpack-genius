@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import * as webpack from 'webpack';
+import TerserPlugin, { TerserPluginOptions } from 'terser-webpack-plugin';
 import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule, Module } from 'webpack';
 import clonedeep from 'lodash.clonedeep';
 import { HotModule } from './plugins/HotModule';
@@ -60,6 +61,8 @@ export class WebpackGenius {
 
   private openBrowser: boolean = true;
 
+  private compressionConfig?: TerserPluginOptions;
+
   public constructor(environment: string, port: number) {
     this.environment = environment || 'development';
     this.port = port;
@@ -107,6 +110,12 @@ export class WebpackGenius {
     }
 
     return `[contenthash:${hashNumber}]`;
+  }
+
+  public setCompressionConfig(config: TerserPluginOptions): this {
+    this.compressionConfig = config;
+
+    return this;
   }
 
   public target(target: Configuration['target']): this {
@@ -437,6 +446,11 @@ export class WebpackGenius {
 
   public collect() {
     const config = clonedeep(this.config);
+
+    if (config.optimization?.minimize) {
+      config.optimization.minimizer = config.optimization.minimizer || [];
+      config.optimization.minimizer.push(new TerserPlugin(this.compressionConfig));
+    }
 
     // Plugin has sequence sometimes
     Object.values(this.plugins).reverse().forEach((plugin) => {

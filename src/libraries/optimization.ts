@@ -11,6 +11,7 @@ export const setOptimization = (config: Options.Optimization, webpack: WebpackGe
   } else {
     config.runtimeChunk = true;
     config.minimize = true;
+    config.minimizer = [];
     config.splitChunks = {
       chunks: 'all',
       cacheGroups: {
