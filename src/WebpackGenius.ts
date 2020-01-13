@@ -61,7 +61,7 @@ export class WebpackGenius {
 
   private openBrowser: boolean = true;
 
-  private compressionConfig?: TerserPluginOptions;
+  private uglifyConfig?: TerserPluginOptions;
 
   public constructor(environment: string, port: number) {
     this.environment = environment || 'development';
@@ -112,8 +112,8 @@ export class WebpackGenius {
     return `[contenthash:${hashNumber}]`;
   }
 
-  public setCompressionConfig(config: TerserPluginOptions): this {
-    this.compressionConfig = config;
+  public setUglifyConfig(config: TerserPluginOptions): this {
+    this.uglifyConfig = config;
 
     return this;
   }
@@ -449,7 +449,7 @@ export class WebpackGenius {
 
     if (config.optimization?.minimize) {
       config.optimization.minimizer = config.optimization.minimizer || [];
-      config.optimization.minimizer.push(new TerserPlugin(this.compressionConfig));
+      config.optimization.minimizer.push(new TerserPlugin(this.uglifyConfig));
     }
 
     // Plugin has sequence sometimes
