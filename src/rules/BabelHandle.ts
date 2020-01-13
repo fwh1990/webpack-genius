@@ -26,6 +26,8 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
           'babel-plugin-import',
           {
             libraryName: item,
+            libraryDirectory: 'lib',
+            camel2DashComponentName: true,
             style: true,
           },
           item,
@@ -46,6 +48,19 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       ]);
     }
 
+    if (this.genius.isBuild() && this.genius.hasPackage('@ant-design/icons')) {
+      this.addBabelPlugin([
+        'babel-plugin-import',
+        {
+          libraryName: '@ant-design/icons',
+          libraryDirectory: 'lib/icons',
+          camel2DashComponentName: false,
+          style: false,
+        },
+        '@ant-design/icons',
+      ]);
+    }
+
     if (this.genius.isBuild() && this.genius.hasPackage('lodash')) {
       this.addBabelPlugin([
         'babel-plugin-import',
@@ -53,6 +68,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
           libraryName: 'lodash',
           libraryDirectory: '',
           camel2DashComponentName: false,
+          style: false,
         },
         'lodash',
       ]);
