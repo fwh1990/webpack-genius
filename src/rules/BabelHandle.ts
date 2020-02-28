@@ -62,16 +62,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     }
 
     if (this.genius.isBuild() && this.genius.hasPackage('lodash')) {
-      this.addBabelPlugin([
-        'babel-plugin-import',
-        {
-          libraryName: 'lodash',
-          libraryDirectory: '',
-          camel2DashComponentName: false,
-          style: false,
-        },
-        'lodash',
-      ]);
+      this.addBabelPlugin(['babel-plugin-lodash']);
     }
 
     if (this.genius.hasPackage('react')) {
