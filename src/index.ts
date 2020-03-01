@@ -82,7 +82,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
 
     fn?.(genius);
 
-    genius.optimization(setOptimizationAfter.bind(window, genius.getUglifyConfig()));
+    genius.optimization(setOptimizationAfter.bind(global, genius.getUglifyConfig()));
     genius.devServer(setDevServerAfter);
 
     // @ts-ignore
