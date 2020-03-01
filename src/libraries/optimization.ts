@@ -1,5 +1,6 @@
 import { Options } from 'webpack';
 import { WebpackGenius } from '../WebpackGenius';
+import TerserPlugin, { TerserPluginOptions } from 'terser-webpack-plugin';
 
 export const setOptimization = (config: Options.Optimization, webpack: WebpackGenius) => {
   config.nodeEnv = webpack.getEnvironment();
@@ -30,3 +31,10 @@ export const setOptimization = (config: Options.Optimization, webpack: WebpackGe
     };
   }
 };
+
+export const setOptimizationAfter = (uglifyConfig: TerserPluginOptions | undefined, optimization: Options.Optimization, _: WebpackGenius) => {
+  if (optimization.minimize) {
+    optimization.minimizer = optimization.minimizer || [];
+    optimization.minimizer.push(new TerserPlugin(uglifyConfig));
+  }
+}

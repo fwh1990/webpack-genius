@@ -3,12 +3,10 @@ import openBrowser from 'react-dev-utils/openBrowser';
 import { WebpackGenius } from '../WebpackGenius';
 
 export const setDevServer = (_: WebpackDevServer.Configuration, genius: WebpackGenius): WebpackDevServer.Configuration => {
-  const port = genius.getPort();
-
   return {
     contentBase: '.',
     publicPath: '/',
-    port,
+    port: genius.getPort(),
     host: '0.0.0.0',
     hot: true,
     disableHostCheck: true,
@@ -17,7 +15,6 @@ export const setDevServer = (_: WebpackDevServer.Configuration, genius: WebpackG
     inline: true,
     overlay: true,
     open: true,
-    stats: genius.collect().stats,
     // transportMode: 'ws',
     watchOptions: {
       aggregateTimeout: 1,
@@ -28,15 +25,26 @@ export const setDevServer = (_: WebpackDevServer.Configuration, genius: WebpackG
       // Paths with dots should still use the history fallback.
       disableDotRule: true,
     },
-    after: () => {
-      if (genius.isOpenBrowser()) {
-        const collect = genius.collect();
-        const host = collect.devServer?.host ?? '0.0.0.0';
-        const realHost = host === '0.0.0.0' ? 'localhost' : host;
-        const protocol = collect.devServer?.http2 || collect.devServer?.https ? 'https' : 'http';
-
-        setTimeout(() => openBrowser(`${protocol}://${realHost}:${port}/`), 3000);
-      }
-    },
   };
+};
+
+export const setDevServerAfter = (config: WebpackDevServer.Configuration, genius: WebpackGenius): void => {
+  const host = config.host || '0.0.0.0';
+  config.host = host;
+
+  if (!config.stats) {
+    config.stats = genius.getConfig().stats;
+  }
+
+  if (config.open) {
+    const originalAfter = config.after;
+    const displayHost = host === '0.0.0.0' ? 'localhost' : host;
+    const protocol = config.http2 || config.https ? 'https' : 'http';
+
+    config.open = false;
+    config.after = (app, server, compile) => {
+      originalAfter?.(app, server, compile);
+      setTimeout(() => openBrowser(`${protocol}://${displayHost}:${config.port}/`), 3000);
+    };
+  }
 };

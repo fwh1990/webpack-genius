@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import * as webpack from 'webpack';
-import TerserPlugin, { TerserPluginOptions } from 'terser-webpack-plugin';
+import { TerserPluginOptions } from 'terser-webpack-plugin';
 import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule, Module } from 'webpack';
 import clonedeep from 'lodash.clonedeep';
 import { HotModule } from './plugins/HotModule';
@@ -29,6 +29,7 @@ import { Stylus } from './rules/Stylus';
 import { ProgressBar } from './plugins/ProgressBar';
 import { Preload } from './plugins/Preload';
 import { ReactRefresh } from './plugins/ReactRefresh';
+import { ErrorOverlay } from './plugins/ErrorOverlay';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -54,13 +55,8 @@ export class WebpackGenius {
 
   private readonly plugins: Record<string, PluginHandle> = {};
   private readonly rules: Record<string, RuleHandle> = {};
-
   private readonly environment: string;
-
   private readonly port: number;
-
-  private openBrowser: boolean = true;
-
   private uglifyConfig?: TerserPluginOptions;
 
   public constructor(environment: string, port: number) {
@@ -68,8 +64,8 @@ export class WebpackGenius {
     this.port = port;
   }
 
-  public isOpenBrowser(): boolean {
-    return this.openBrowser;
+  public getConfig(): Configuration {
+    return clonedeep(this.config);
   }
 
   public hasPackage(name: string): boolean {
@@ -110,6 +106,10 @@ export class WebpackGenius {
     }
 
     return `[contenthash:${hashNumber}]`;
+  }
+
+  public getUglifyConfig(): TerserPluginOptions | undefined {
+    return clonedeep(this.uglifyConfig);
   }
 
   public setUglifyConfig(config: TerserPluginOptions): this {
@@ -238,6 +238,14 @@ export class WebpackGenius {
 
   public pluginHotModuleReplace(fn?: (plugin: HotModule) => void): this {
     const plugin = this.findPlugin('hot-module-replace', () => new HotModule(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
+  public pluginErrorOverlay(fn?: (plugin: ErrorOverlay) => void): this {
+    const plugin = this.findPlugin('error-overlay', () => new ErrorOverlay(this));
 
     fn?.(plugin);
 
@@ -444,13 +452,8 @@ export class WebpackGenius {
     return this;
   }
 
-  public collect() {
+  protected collect() {
     const config = clonedeep(this.config);
-
-    if (config.optimization?.minimize) {
-      config.optimization.minimizer = config.optimization.minimizer || [];
-      config.optimization.minimizer.push(new TerserPlugin(this.uglifyConfig));
-    }
 
     // Plugin has sequence sometimes
     Object.values(this.plugins).reverse().forEach((plugin) => {
@@ -464,13 +467,6 @@ export class WebpackGenius {
         config.module?.rules.push(rule.collect());
       }
     });
-
-    if (config.devServer?.open) {
-      config.devServer.open = false;
-      this.openBrowser = true;
-    } else {
-      this.openBrowser = false;
-    }
 
     return config;
   }

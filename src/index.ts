@@ -6,8 +6,8 @@ import { setMode } from './libraries/mode';
 import { setResolve } from './libraries/resolve';
 import { setDevtool } from './libraries/devtool';
 import { Configuration } from 'webpack';
-import { setDevServer } from './libraries/devserver';
-import { setOptimization } from './libraries/optimization';
+import { setDevServer, setDevServerAfter } from './libraries/devserver';
+import { setOptimization, setOptimizationAfter } from './libraries/optimization';
 import { getEntry } from './libraries/entry';
 import { getHtmlTemplate } from './libraries/template';
 
@@ -30,6 +30,9 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
     genius
       .pluginClean((plugin) => {
         plugin.enable(genius.isBuild());
+      })
+      .pluginErrorOverlay((plugin) => {
+        plugin.enable(genius.isHot());
       })
       .pluginHtml((plugin) => {
         const template = getHtmlTemplate();
@@ -79,6 +82,10 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
 
     fn?.(genius);
 
+    genius.optimization(setOptimizationAfter.bind(window, genius.getUglifyConfig()));
+    genius.devServer(setDevServerAfter);
+
+    // @ts-ignore
     return genius.collect();
   };
 };
