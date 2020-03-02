@@ -32,7 +32,14 @@ export const setOptimization = (config: Options.Optimization, webpack: WebpackGe
   }
 };
 
-export const setOptimizationAfter = (uglifyConfig: TerserPluginOptions | undefined, optimization: Options.Optimization, _: WebpackGenius) => {
+export const setOptimizationAfter = (uglifyConfig: TerserPluginOptions | undefined, optimization: Options.Optimization, genius: WebpackGenius) => {
+  const options = uglifyConfig || {};
+  const { devtool } = genius.getConfig();
+
+  if (devtool !== undefined && devtool !== false && options.sourceMap === undefined) {
+    options.sourceMap = true;
+  }
+
   if (optimization.minimize) {
     optimization.minimizer = optimization.minimizer || [];
     optimization.minimizer.push(new TerserPlugin(uglifyConfig));
