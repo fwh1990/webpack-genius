@@ -1,4 +1,5 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import { Plugin } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 
@@ -31,6 +32,7 @@ export class MiniCss extends PluginHandle {
   public collect(): Plugin[] {
     return [
       new MiniCssExtractPlugin(this.config),
+      new OptimizeCssAssetsPlugin(),
     ];
   }
 }
