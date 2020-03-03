@@ -10,10 +10,12 @@ export interface CssOptions {
   'css-loader': {
     modules: boolean;
     esModule: boolean;
+    sourceMap: boolean;
   };
   'postcss-loader': {
     ident: string;
     plugins: Plugin<any>[];
+    sourceMap:  boolean;
   };
 }
 
@@ -62,6 +64,7 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
         options: {
           modules: true,
           esModule: false,
+          sourceMap: this.genius.isHot(),
         },
       },
       {
@@ -70,6 +73,7 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
           // https://github.com/postcss/postcss-loader#plugins
           ident: 'postcss-' + this.constructor.name,
           plugins: [autoprefixer()],
+          sourceMap: this.genius.isHot(),
         },
       },
     ];
