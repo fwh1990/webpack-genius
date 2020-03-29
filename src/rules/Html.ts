@@ -11,12 +11,15 @@ export class Html extends RuleHandle {
       {
         loader: 'html-loader',
         options: {
-          attrs: [
+          attributes: [
             'img:src',
             'link:href',
             'audio:src',
             'video:src',
           ],
+          esModule: false,
+          // Mini by html-webpack-plugin
+          minimize: false,
         },
       }
     ];
