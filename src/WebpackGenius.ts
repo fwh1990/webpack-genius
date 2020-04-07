@@ -30,6 +30,7 @@ import { ProgressBar } from './plugins/ProgressBar';
 import { Preload } from './plugins/Preload';
 import { ReactRefresh } from './plugins/ReactRefresh';
 import { ErrorOverlay } from './plugins/ErrorOverlay';
+import { AntdDayJs } from './plugins/AntdDayJs';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -254,6 +255,14 @@ export class WebpackGenius {
 
   public pluginReactRefresh(fn?: (plugin: ReactRefresh) => void): this {
     const plugin = this.findPlugin('react-refresh', () => new ReactRefresh(this));
+
+    fn?.(plugin);
+
+    return this;
+  }
+
+  public pluginAntdDayJs(fn?: (plugin: AntdDayJs) => void): this {
+    const plugin = this.findPlugin('antd-day-js', () => new AntdDayJs(this));
 
     fn?.(plugin);
 

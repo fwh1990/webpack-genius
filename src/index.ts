@@ -58,6 +58,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
           .usePrefetch()
           .enable(genius.isBuild());
       })
+      .pluginAntdDayJs()
       .pluginGzip((plugin) => {
         // You can reopen it by `plugin.enable(genius.isBuild());`
         plugin.enable(false);
