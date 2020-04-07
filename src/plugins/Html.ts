@@ -1,7 +1,7 @@
 import path from 'path';
 import { Plugin } from 'webpack';
 import { PluginHandle } from './PluginHandle';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackPlugin, { MinifyOptions } from 'html-webpack-plugin';
 
 export class Html extends PluginHandle {
   protected readonly clones: Html[] = [];
@@ -32,10 +32,12 @@ export class Html extends PluginHandle {
     this.config = {
       ...this.config,
       ...config,
-      minify: {
-        ...this.config.minify,
-        ...config.minify,
-      },
+      minify: typeof config.minify === 'object'
+        ? {
+          ...this.config.minify as MinifyOptions,
+          ...config.minify,
+        }
+        : config.minify,
     };
 
     return this;
