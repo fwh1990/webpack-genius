@@ -2,12 +2,12 @@ import { Plugin } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-type Patterns = (typeof CopyWebpackPlugin) extends new(patterns: infer P) => any ? NonNullable<P> : never;
+type Options = (typeof CopyWebpackPlugin) extends new(patterns: infer P) => any ? NonNullable<P> : never;
 
-type Pattern = Exclude<Patterns[0], string>;
+type Pattern = Exclude<Options['patterns'][number], string>;
 
 export class Copy extends PluginHandle {
-  protected patterns: Patterns = [];
+  protected patterns: Pattern[] = [];
 
   public copy(pattern: Pattern): this {
     this.patterns.push(pattern);
@@ -18,7 +18,9 @@ export class Copy extends PluginHandle {
   collect(): Plugin[] {
     if (this.patterns.length) {
       return [
-        new CopyWebpackPlugin(this.patterns),
+        new CopyWebpackPlugin({
+          patterns: this.patterns,
+        }),
       ];
     }
 

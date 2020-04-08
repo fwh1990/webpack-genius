@@ -5,6 +5,8 @@ rm -rf ./build
 ./node_modules/.bin/tsc
 cp README.md package.json LICENSE ./build
 
+npx public-refactor --src ./src --dist ./build
+
 old_registry=$(npm config get registry)
 npm config set registry https://registry.npmjs.org
 set +e
