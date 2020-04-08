@@ -88,7 +88,6 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
     genius.optimization(setOptimizationAfter.bind(global, genius.getUglifyConfig()));
     genius.devServer(setDevServerAfter);
 
-    // @ts-ignore
     return genius.collect();
   };
 };

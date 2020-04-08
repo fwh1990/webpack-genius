@@ -2,7 +2,9 @@ import { RuleHandle } from './RuleHandle';
 import { RuleSetCondition, RuleSetLoader } from 'webpack';
 
 interface Json5Options {
-  'json5-loader': {};
+  'json5-loader': {
+    esModule: boolean;
+  };
 }
 
 export class Json5 extends RuleHandle<Json5Options> {
@@ -14,7 +16,9 @@ export class Json5 extends RuleHandle<Json5Options> {
     return [
       {
         loader: 'json5-loader',
-        options: {},
+        options: {
+          esModule: false,
+        },
       }
     ];
   }

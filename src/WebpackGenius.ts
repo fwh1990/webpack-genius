@@ -461,7 +461,7 @@ export class WebpackGenius {
     return this;
   }
 
-  protected collect() {
+  public/*protected*/ collect() {
     const config = clonedeep(this.config);
 
     // Plugin has sequence sometimes
