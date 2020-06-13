@@ -3,8 +3,10 @@ import { RuleSetCondition, RuleSetLoader } from 'webpack';
 
 interface LessOptions extends CssOptions {
   'less-loader': {
-    modifyVars: object | string;
-    javascriptEnabled: boolean;
+    lessOptions: {
+      modifyVars: object | string;
+      javascriptEnabled: boolean;
+    },
   };
 }
 
