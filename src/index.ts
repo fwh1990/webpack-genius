@@ -1,3 +1,4 @@
+import 'v8-compile-cache';
 import './misc/module';
 import { WebpackGenius } from "./WebpackGenius";
 import { setOutput } from "./libraries/output";
