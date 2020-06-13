@@ -7,14 +7,14 @@ export class LessAntd extends Less {
 
     this.disableCssModules();
     this.setOptions('less-loader', (options) => {
-      options.modifyVars = {};
-      options.javascriptEnabled = true;
+      options.lessOptions!.modifyVars = {};
+      options.lessOptions!.javascriptEnabled = true;
     });
   }
 
   public theme(theme: object): this {
     this.setOptions('less-loader', (options) => {
-      options.modifyVars = theme;
+      options.lessOptions!.modifyVars = theme;
     });
 
     return this;

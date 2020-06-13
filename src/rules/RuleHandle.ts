@@ -4,7 +4,7 @@ import { RuleSetRule, RuleSetCondition, RuleSetLoader } from 'webpack';
 export abstract class RuleHandle<T = any> {
   protected readonly genius: WebpackGenius;
   private status: boolean = true;
-  protected readonly rule: RuleSetRule & { use?: RuleSetLoader[] } = {};
+  protected rule: RuleSetRule & { use?: RuleSetLoader[] } = {};
 
   constructor(genius: WebpackGenius) {
     this.genius = genius;
@@ -19,7 +19,19 @@ export abstract class RuleHandle<T = any> {
     //
   }
 
+  public removeLoader(name: string): this {
+    this.rule.use = (this.rule.use as RuleSetLoader[]).filter((item) => {
+      return !this.isLoaderEqual(item.loader, name);
+    });
+
+    return this;
+  }
+
   public addLoaderBefore(loader: RuleSetLoader, beforeLoaderName?: string): this {
+    if (this.exists(loader.loader)) {
+      return this;
+    }
+
     const index = (this.rule.use as RuleSetLoader[]).findIndex((item) => {
       return this.isLoaderEqual(item.loader, beforeLoaderName);
     });
@@ -34,6 +46,10 @@ export abstract class RuleHandle<T = any> {
   }
 
   public addLoaderAfter(loader: RuleSetLoader, afterLoaderName?: string): this {
+    if (this.exists(loader.loader)) {
+      return this;
+    }
+
     const index = (this.rule.use as RuleSetLoader[]).findIndex((item) => {
       return this.isLoaderEqual(item.loader, afterLoaderName);
     });
@@ -105,7 +121,7 @@ export abstract class RuleHandle<T = any> {
     return undefined;
   }
 
-  public collect(): RuleSetRule {
+  public/*protected*/ collect(): RuleSetRule {
     this.rule.use?.forEach((item: RuleSetLoader) => {
       item.loader = require.resolve(item.loader!);
     });
@@ -113,7 +129,15 @@ export abstract class RuleHandle<T = any> {
     return this.rule;
   }
 
-  protected isLoaderEqual(loader, search?: keyof T | string) {
+  protected exists(loader?: string) {
+    const index = (this.rule.use as RuleSetLoader[]).findIndex((item) => {
+      return this.isLoaderEqual(item.loader, loader);
+    });
+
+    return index >= 0;
+  }
+
+  protected isLoaderEqual(loader?: string, search?: keyof T | string) {
     if (!search) {
       return false;
     }

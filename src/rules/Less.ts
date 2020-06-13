@@ -19,7 +19,9 @@ export class Less extends CssHandle<LessOptions> {
     return super.loaders().concat([
       {
         loader: 'less-loader',
-        options: {},
+        options: {
+          lessOptions: {},
+        },
       },
     ]);
   }

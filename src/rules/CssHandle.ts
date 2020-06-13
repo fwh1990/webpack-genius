@@ -1,7 +1,6 @@
 import { RuleHandle } from './RuleHandle';
 import { RuleSetLoader } from 'webpack';
 import { Plugin } from 'postcss';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import autoprefixer from 'autoprefixer';
 
 export interface CssOptions {
@@ -20,27 +19,6 @@ export interface CssOptions {
 }
 
 export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleHandle<T> {
-  protected onInit() {
-    super.onInit();
-
-    if (this.genius.isHot()) {
-      this
-        .addLoaderBefore({ loader: 'style-loader' }, 'css-loader')
-        .addLoaderBefore({ loader: 'cache-loader' });
-    } else {
-      this.addLoaderBefore(
-        {
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            // Relative position between css and image
-            publicPath: '../',
-          },
-        },
-        'css-loader',
-      );
-    }
-  }
-
   public disableCssModules(): this {
     this.setOptions('css-loader', (options) => {
       options.modules = false;

@@ -31,6 +31,8 @@ import { Preload } from './plugins/Preload';
 import { ReactRefresh } from './plugins/ReactRefresh';
 import { ErrorOverlay } from './plugins/ErrorOverlay';
 import { AntdDayJs } from './plugins/AntdDayJs';
+import { CssHandle } from './rules/CssHandle';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const packageFile: {
    dependencies: Record<string, string>;
@@ -164,28 +166,61 @@ export class WebpackGenius {
   }
 
   public miniCss(is: boolean): this {
-    if (!is) {
-      return this;
-    }
+    this.pluginMiniCss((plugin) => {
+      plugin.enable(is);
+    });
 
-    this.pluginMiniCss();
+    const handle = (css: CssHandle) => {
+      if (is) {
+        css
+          .removeLoader('style-loader')
+          .removeLoader('cache-loader')
+          .addLoaderBefore(
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                // Relative position between css and image
+                publicPath: '../',
+              },
+            },
+            'css-loader',
+          );
+      } else {
+        css
+          .removeLoader(MiniCssExtractPlugin.loader)
+          .addLoaderBefore({ loader: 'style-loader' }, 'css-loader')
+          .addLoaderBefore({ loader: 'cache-loader' });
+      }
+    };
+
+    this
+      .ruleCss(handle)
+      .ruleCssNodeModules(handle)
+      .ruleLess(handle)
+      .ruleAntd(handle)
+      .ruleScss(handle)
+      .ruleStylus(handle);
 
     this.optimization((optimization) => {
       const chunks = optimization.splitChunks as Options.SplitChunksOptions;
 
-      if (!chunks.cacheGroups) {
+      if (typeof chunks.cacheGroups !== 'object') {
         chunks.cacheGroups = {};
       }
 
-      Object.assign(chunks.cacheGroups, {
-        // https://github.com/webpack-contrib/mini-css-extract-plugin#extracting-all-css-in-a-single-file
-        styles: {
-          test: /\.css$/,
-          name: 'styles',
-          chunks: 'all',
-          enforce: true,
-        },
-      });
+      if (is) {
+        Object.assign(chunks.cacheGroups, {
+          // https://github.com/webpack-contrib/mini-css-extract-plugin#extracting-all-css-in-a-single-file
+          styles: {
+            test: /\.css$/,
+            name: 'styles',
+            chunks: 'all',
+            enforce: true,
+          },
+        });
+      } else {
+        Reflect.deleteProperty(chunks.cacheGroups,  'styles');
+      }
     });
 
     return this;

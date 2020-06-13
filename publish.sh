@@ -3,6 +3,13 @@ set -e
 rm -rf ./build
 
 ./node_modules/.bin/tsc
+
+for file in $(ls -l ./build/ | grep -v src | awk '{print $NF}')
+do
+  rm -rf ./build/$file
+done
+
+mv ./build/src/* ./build && rmdir ./build/src
 cp README.md package.json LICENSE ./build
 
 npx public-refactor --src ./src --dist ./build
