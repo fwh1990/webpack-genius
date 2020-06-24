@@ -8,7 +8,7 @@ export const setOptimization = (config: Options.Optimization, webpack: WebpackGe
   if (webpack.isHot()) {
     config.removeAvailableModules = false;
     config.removeEmptyChunks = false;
-    config.splitChunks = false;
+    config.splitChunks = {};
   } else {
     config.runtimeChunk = true;
     config.minimize = true;

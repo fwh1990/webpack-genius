@@ -202,7 +202,11 @@ export class WebpackGenius {
       .ruleStylus(handle);
 
     this.optimization((optimization) => {
-      const chunks = optimization.splitChunks as Options.SplitChunksOptions;
+      if (!optimization.splitChunks) {
+        optimization.splitChunks = {};
+      }
+
+      const chunks = optimization.splitChunks;
 
       if (typeof chunks.cacheGroups !== 'object') {
         chunks.cacheGroups = {};
