@@ -48,7 +48,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       ]);
     }
 
-    if (this.genius.isBuild() && this.genius.hasPackage('@ant-design/icons')) {
+    if (this.genius.hasPackage('@ant-design/icons')) {
       this.addBabelPlugin([
         'babel-plugin-import',
         {
