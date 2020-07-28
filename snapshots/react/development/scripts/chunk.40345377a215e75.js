@@ -49,9 +49,9 @@ react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEB
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-module.exports = {"wrapper":"_178UGi9PRmCPyxFCtmC9OP"};
+module.exports = {"wrapper":"_1pquJdkNGog_QzSRWWxkpR"};
 
 /***/ })
 
 },[["2YZa",1,2]]]);
-//# sourceMappingURL=chunk.e8175cc40c16655.js.map
+//# sourceMappingURL=chunk.40345377a215e75.js.map

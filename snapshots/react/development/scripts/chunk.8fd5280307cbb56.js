@@ -41,9 +41,9 @@ var Chunk = /*#__PURE__*/function (_React$PureComponent) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-module.exports = {"wrapper":"_1EcmKQ2qLOowYnqq-eHTVS"};
+module.exports = {"wrapper":"_39rIPah0L00plXtsKF-MSg"};
 
 /***/ })
 
 }]);
-//# sourceMappingURL=chunk.8153eab772eccde.js.map
+//# sourceMappingURL=chunk.8fd5280307cbb56.js.map
