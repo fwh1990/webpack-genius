@@ -56,7 +56,7 @@
 /******/ 	// object to store loaded CSS chunks
 /******/ 	var installedCssChunks = {
 /******/ 		1: 0
-/******/ 	}
+/******/ 	};
 /******/
 /******/ 	// object to store loaded and loading chunks
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
@@ -267,4 +267,4 @@
 /******/ })
 /************************************************************************/
 /******/ ([]);
-//# sourceMappingURL=runtime~main.f492e736688e52d.js.map
+//# sourceMappingURL=runtime~main.66b42c9dbb1deab.js.map
