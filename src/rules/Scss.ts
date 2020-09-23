@@ -1,7 +1,20 @@
-import { CssHandle } from './CssHandle';
+import { CssHandle, CssOptions } from './CssHandle';
 import { RuleSetCondition, RuleSetLoader } from 'webpack';
 
-export class Scss extends CssHandle {
+interface SassOptions extends CssOptions {
+  'sass-loader': {
+    sassOptions: {},
+    additionalData: string | (() => string);
+  };
+}
+
+export class Scss extends CssHandle<SassOptions> {
+  additionalData(data: string | (() => string)): this {
+    return this.setOptions('sass-loader', (options) => {
+      options.additionalData = data;
+    });
+  }
+
   protected test(): RuleSetCondition {
     return /\.s[ac]ss$/i;
   }

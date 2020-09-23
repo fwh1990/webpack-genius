@@ -1,7 +1,8 @@
 import { RuleHandle } from './RuleHandle';
-import { RuleSetLoader } from 'webpack';
+import { RuleSetLoader, RuleSetRule } from 'webpack';
 import { Plugin } from 'postcss';
-import autoprefixer from 'autoprefixer';
+import { cosmiconfigSync } from 'cosmiconfig';
+import { findConfig } from 'browserslist/node';
 
 export interface CssOptions {
   'cache-loader': {};
@@ -12,9 +13,10 @@ export interface CssOptions {
     sourceMap: boolean;
   };
   'postcss-loader': {
-    ident: string;
-    plugins: Plugin<any>[];
     sourceMap:  boolean;
+    postcssOptions: {
+      plugins: (Plugin | string | [string, object])[];
+    }
   };
 }
 
@@ -27,9 +29,10 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
     return this;
   }
 
-  public addPostCssPlugin(plugin: Plugin<any>): this {
+  public addPostCssPlugin(plugin: Plugin | string | [string, object]): this {
     this.setOptions('postcss-loader', (options) => {
-      options.plugins?.push(plugin);
+      const plugins = options.postcssOptions!.plugins = options.postcssOptions!.plugins || [];
+      plugins.push(plugin);
     });
 
     return this;
@@ -48,12 +51,33 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
       {
         loader: 'postcss-loader',
         options: {
-          // https://github.com/postcss/postcss-loader#plugins
-          ident: 'postcss-' + this.constructor.name,
-          plugins: [autoprefixer()],
           sourceMap: this.genius.isHot(),
+          postcssOptions: {},
         },
       },
     ];
+  }
+
+  public/*protected*/ collect(): RuleSetRule {
+    this.setOptions('postcss-loader', (options) => {
+      // should have browserslist configuration file.
+      // User didn't set plugins into loader directly.
+      if (!options.postcssOptions!.plugins) {
+        const postcssConfigFile = cosmiconfigSync('postcss').search(process.cwd());
+        const browserslistConfig = findConfig(process.cwd());
+
+        // User didn't add postcss configuration file.
+        if (postcssConfigFile === null) {
+          if (browserslistConfig) {
+            options.postcssOptions!.plugins = [require.resolve('autoprefixer')];
+          } else {
+            // Just disable postcss-loader to against warning
+            this.disableLoader('postcss-loader');
+          }
+        }
+      }
+    });
+
+    return super.collect();
   }
 }

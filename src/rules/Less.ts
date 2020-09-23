@@ -7,10 +7,17 @@ interface LessOptions extends CssOptions {
       modifyVars: object | string;
       javascriptEnabled: boolean;
     },
+    additionalData: string | (() => string);
   };
 }
 
 export class Less extends CssHandle<LessOptions> {
+  additionalData(data: string | (() => string)): this {
+    return this.setOptions('less-loader', (options) => {
+      options.additionalData = data;
+    });
+  }
+
   protected test(): RuleSetCondition {
     return /\.less$/i;
   }
