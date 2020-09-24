@@ -10,6 +10,7 @@ export class Stylus extends CssHandle {
     return super.loaders().concat([
       {
         loader: 'stylus-loader',
+        options: {},
       },
     ]);
   }

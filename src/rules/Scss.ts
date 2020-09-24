@@ -23,6 +23,9 @@ export class Scss extends CssHandle<SassOptions> {
     return super.loaders().concat([
       {
         loader: 'sass-loader',
+        options: {
+          sassOptions: {},
+        },
       },
     ]);
   }
