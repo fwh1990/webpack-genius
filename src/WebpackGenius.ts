@@ -25,7 +25,6 @@ import { Copy } from './plugins/Copy';
 import { Define } from './plugins/Define';
 import { CssNodeModules } from './rules/CssNodeModules';
 import { Json5 } from './rules/Json5';
-import { Stylus } from './rules/Stylus';
 import { ProgressBar } from './plugins/ProgressBar';
 import { Preload } from './plugins/Preload';
 import { ReactRefresh } from './plugins/ReactRefresh';
@@ -198,8 +197,7 @@ export class WebpackGenius {
       .ruleCssNodeModules(handle)
       .ruleLess(handle)
       .ruleAntd(handle)
-      .ruleScss(handle)
-      .ruleStylus(handle);
+      .ruleScss(handle);
 
     this.optimization((optimization) => {
       if (!optimization.splitChunks) {
@@ -426,14 +424,6 @@ export class WebpackGenius {
     return this;
   }
 
-  public ruleStylus(fn?: (rule: Stylus) => void): this {
-    const rule = this.findRule('stylus', () => new Stylus(this));
-
-    fn?.(rule);
-
-    return this;
-  }
-
   public ruleLess(fn?: (rule: Less) => void): this {
     const rule = this.findRule('less', () => new Less(this));
 
@@ -444,10 +434,6 @@ export class WebpackGenius {
 
   // Shortcut for style rules
   public disableCssModule(): this {
-    this.ruleStylus((rule) => {
-      rule.disableCssModules();
-    });
-
     this.ruleScss((rule) => {
       rule.disableCssModules();
     });
