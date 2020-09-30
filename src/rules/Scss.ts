@@ -24,7 +24,10 @@ export class Scss extends CssHandle<SassOptions> {
       {
         loader: 'sass-loader',
         options: {
-          sassOptions: {},
+          sassOptions: {
+            implementation: require(require.resolve('sass')),
+            fiber: require(require.resolve('fibers')),
+          },
         },
       },
     ]);
