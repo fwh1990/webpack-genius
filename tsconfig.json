@@ -26,5 +26,9 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "lib",
+    "build"
+  ]
 }
