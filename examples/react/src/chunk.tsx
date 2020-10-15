@@ -1,7 +1,7 @@
-import React from 'react';
+import { PureComponent } from 'react';
 import styles from './chunk.less';
 
-class Chunk extends React.PureComponent {
+class Chunk extends PureComponent {
   render() {
     return <div className={styles.wrapper}>async chunks</div>;
   }

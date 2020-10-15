@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import ReactDom from 'react-dom';
 import { Button, Tag } from 'antd';
 

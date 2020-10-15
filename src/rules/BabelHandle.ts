@@ -66,7 +66,9 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     }
 
     if (this.genius.hasPackage('react')) {
-      this.addBabelPreset(['@babel/preset-react']);
+      this.addBabelPreset(['@babel/preset-react', {
+        runtime: 'automatic'
+      }]);
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { PureComponent, lazy, Suspense } from 'react';
+import { PureComponent, lazy, Suspense } from 'react';
 import ReactDom from 'react-dom';
 import styles from './index.scss';
 
