@@ -1,4 +1,4 @@
-import { Plugin } from 'webpack';
+import { WebpackPluginInstance } from 'webpack';
 import { WebpackGenius } from '../WebpackGenius';
 
 export abstract class PluginHandle {
@@ -19,5 +19,5 @@ export abstract class PluginHandle {
     return this.status;
   }
 
-  public abstract collect(): Plugin[];
+  public abstract collect(): WebpackPluginInstance[];
 }

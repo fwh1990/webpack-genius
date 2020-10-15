@@ -1,22 +1,24 @@
-import { Options } from 'webpack';
+import { Configuration } from 'webpack';
 import { WebpackGenius } from '../WebpackGenius';
 import TerserPlugin, { TerserPluginOptions } from 'terser-webpack-plugin';
 
-export const setOptimization = (config: Options.Optimization, webpack: WebpackGenius) => {
+export const setOptimization = (config: NonNullable<Configuration['optimization']>, webpack: WebpackGenius) => {
   config.nodeEnv = webpack.getEnvironment();
+    // https://webpack.docschina.org/guides/build-performance/#minimal-entry-chunk
+    config.runtimeChunk = true;
 
   if (webpack.isHot()) {
+    // https://webpack.docschina.org/guides/build-performance/#avoid-extra-optimization-steps
     config.removeAvailableModules = false;
     config.removeEmptyChunks = false;
-    config.splitChunks = {};
+    config.splitChunks = false;
   } else {
-    config.runtimeChunk = true;
     config.minimize = true;
     config.minimizer = [];
     config.splitChunks = {
       chunks: 'all',
       cacheGroups: {
-        vendors: {
+        defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           chunks: 'all',
@@ -32,14 +34,7 @@ export const setOptimization = (config: Options.Optimization, webpack: WebpackGe
   }
 };
 
-export const setOptimizationAfter = (uglifyConfig: TerserPluginOptions | undefined, optimization: Options.Optimization, genius: WebpackGenius) => {
-  const options = uglifyConfig || {};
-  const { devtool } = genius.getConfig();
-
-  if (devtool !== undefined && devtool !== false && options.sourceMap === undefined) {
-    options.sourceMap = true;
-  }
-
+export const setOptimizationAfter = (uglifyConfig: TerserPluginOptions | undefined, optimization: NonNullable<Configuration['optimization']>) => {
   if (optimization.minimize) {
     optimization.minimizer = optimization.minimizer || [];
     optimization.minimizer.push(new TerserPlugin(uglifyConfig));

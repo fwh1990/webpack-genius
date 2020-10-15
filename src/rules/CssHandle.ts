@@ -1,16 +1,16 @@
-import { RuleHandle } from './RuleHandle';
-import { RuleSetLoader, RuleSetRule } from 'webpack';
+import { RuleHandle, RuleSetLoader } from './RuleHandle';
+import { RuleSetRule } from 'webpack';
 import { Plugin } from 'postcss';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { findConfig } from 'browserslist/node';
 
 export interface CssOptions {
-  'cache-loader': {};
   'style-loader': {};
   'css-loader': {
     modules: boolean;
     esModule: boolean;
     sourceMap: boolean;
+    importLoaders: number;
   };
   'postcss-loader': {
     sourceMap:  boolean;
@@ -58,7 +58,7 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
     ];
   }
 
-  public/*protected*/ collect(): RuleSetRule {
+  protected valiatePostcss() {
     this.setOptions('postcss-loader', (options) => {
       // should have browserslist configuration file.
       // User didn't set plugins into loader directly.
@@ -77,6 +77,22 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
         }
       }
     });
+  }
+
+  protected setCssImportLoaders() {
+    const total = this.rule.use!.length;
+    const index = this.rule.use!.findIndex((item) => (item as RuleSetLoader).loader === 'css-loader');
+
+    if (~index) {
+      this.setOptions('css-loader', (options) => {
+        options.importLoaders = total - index - 1;
+      });
+    }
+  }
+
+  public/*protected*/ collect(): RuleSetRule {
+    this.valiatePostcss();
+    this.setCssImportLoaders();
 
     return super.collect();
   }

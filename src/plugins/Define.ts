@@ -1,4 +1,4 @@
-import { DefinePlugin, Plugin } from 'webpack';
+import { DefinePlugin, WebpackPluginInstance } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 
 export class Define extends PluginHandle {
@@ -14,7 +14,7 @@ export class Define extends PluginHandle {
     return this.add(`process.env.${envKey}`, value);
   }
 
-  collect(): Plugin[] {
+  collect(): WebpackPluginInstance[] {
     for (const key in this.definition) {
       if (this.definition.hasOwnProperty(key)) {
         return [

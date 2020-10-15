@@ -1,5 +1,5 @@
-import { RuleHandle } from './RuleHandle';
-import { RuleSetLoader, RuleSetRule } from 'webpack';
+import { RuleHandle, RuleSetLoader } from './RuleHandle';
+import { RuleSetRule } from 'webpack';
 import path from 'path';
 
 export interface BabelOptions {
@@ -9,8 +9,6 @@ export interface BabelOptions {
     poolTimeout: number;
   };
   'babel-loader': {
-    cacheCompression: boolean;
-    cacheDirectory: string | boolean;
     plugins: Array<[string] | [string, Record<string, any>] | [string, Record<string, any>, string]>;
     presets: Array<[string] | [string, Record<string, any>]>;
   };
@@ -48,7 +46,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
       ]);
     }
 
-    if (this.genius.hasPackage('@ant-design/icons')) {
+    if (this.genius.isBuild() && this.genius.hasPackage('@ant-design/icons')) {
       this.addBabelPlugin([
         'babel-plugin-import',
         {
@@ -66,7 +64,21 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     }
 
     if (this.genius.hasPackage('react')) {
-      this.addBabelPreset(['@babel/preset-react']);
+      // const version = require('react').version.split('.');
+
+      // const major = Number(version[0]);
+      // const minor = Number(version[1]);
+      // let runtime = 'classic';
+
+      // // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
+      // if (major >= 17 || major === 16 && minor >= 14 || major === 15 && minor >= 7) {
+      //   runtime = 'automatic';
+      // }
+
+      this.addBabelPreset(['@babel/preset-react', {
+        // starting from Babel 8, "automatic" will be the default runtime.
+        runtime: 'automatic',
+      }]);
     }
   }
 
@@ -109,7 +121,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
     }
 
     this.setOptions('babel-loader', (loader) => {
-      const plugin = loader.plugins?.find((item) => item[0].indexOf('module-hot.js') >= 0);
+      const plugin = loader.plugins?.find((item) => ~item[0].indexOf('module-hot.js'));
 
       if (plugin && plugin[1]) {
         plugin[1].entries = list;
@@ -123,7 +135,7 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
         loader: 'thread-loader',
         options: {
           workerParallelJobs: 50,
-          poolTimeout: 2000,
+          poolTimeout: this.genius.isHot() ? Infinity : 500,
         },
       },
       {
@@ -133,8 +145,6 @@ export abstract class BabelHandle<T extends BabelOptions = BabelOptions> extends
           configFile: false,
           // Disable file .babelrc ??
           babelrc: false,
-          cacheCompression: false,
-          cacheDirectory: this.genius.isHot(),
           plugins: [
             [
               '@babel/plugin-proposal-decorators',

@@ -1,5 +1,6 @@
 import { CssHandle, CssOptions } from './CssHandle';
-import { RuleSetCondition, RuleSetLoader } from 'webpack';
+import { RuleSetCondition } from 'webpack';
+import { RuleSetLoader } from './RuleHandle';
 
 interface SassOptions extends CssOptions {
   'sass-loader': {

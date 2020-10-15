@@ -1,8 +1,8 @@
-import { Plugin, HotModuleReplacementPlugin } from 'webpack';
+import { WebpackPluginInstance, HotModuleReplacementPlugin } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 
 export class HotModule extends PluginHandle {
-  public collect(): Plugin[] {
+  public collect(): WebpackPluginInstance[] {
     return [
       new HotModuleReplacementPlugin(),
     ];

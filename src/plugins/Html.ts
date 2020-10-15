@@ -1,5 +1,5 @@
 import path from 'path';
-import { Plugin } from 'webpack';
+import { WebpackPluginInstance } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 import HtmlWebpackPlugin, { MinifyOptions } from 'html-webpack-plugin';
 
@@ -50,7 +50,7 @@ export class Html extends PluginHandle {
     return plugin;
   }
 
-  public collect(): Plugin[] {
+  public collect(): WebpackPluginInstance[] {
     return this.clones.concat(this).map((html) => {
       return new HtmlWebpackPlugin(html.config);
     });

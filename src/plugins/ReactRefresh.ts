@@ -1,9 +1,9 @@
 import { PluginHandle } from './PluginHandle';
-import { Plugin } from 'webpack';
+import { WebpackPluginInstance } from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 export class ReactRefresh extends PluginHandle {
-  collect(): Plugin[] {
+  collect(): WebpackPluginInstance[] {
     return [
       new ReactRefreshWebpackPlugin({
         forceEnable: false,

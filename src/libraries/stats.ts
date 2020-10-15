@@ -1,7 +1,7 @@
-import { Options } from 'webpack';
+import { Configuration } from 'webpack';
 import { WebpackGenius } from '../WebpackGenius';
 
-export const setStats = (_: Options.Stats, genius: WebpackGenius): Options.Stats => {
+export const setStats = (_: NonNullable<Configuration['stats']>, genius: WebpackGenius): Configuration['stats'] => {
   return {
     colors: true,
     chunks: false,

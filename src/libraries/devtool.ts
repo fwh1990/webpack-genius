@@ -1,6 +1,6 @@
 import { WebpackGenius } from '../WebpackGenius';
-import { Options } from 'webpack';
+import { Configuration } from 'webpack';
 
-export const setDevtool = (genius: WebpackGenius): Options.Devtool => {
+export const setDevtool = (genius: WebpackGenius): NonNullable<Configuration['devtool']> => {
   return genius.isBuild() ? 'nosources-source-map' : 'cheap-eval-source-map';
 };

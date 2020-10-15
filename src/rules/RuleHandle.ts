@@ -1,5 +1,20 @@
 import { WebpackGenius } from '../WebpackGenius';
-import { RuleSetRule, RuleSetCondition, RuleSetLoader } from 'webpack';
+import { RuleSetRule, RuleSetCondition } from 'webpack';
+
+export interface RuleSetLoader {
+  /**
+   * Unique loader options identifier.
+   */
+  ident?: string;
+  /**
+   * Loader name.
+   */
+  loader: string;
+  /**
+   * Loader options.
+   */
+  options?: string | { [index: string]: any };
+}
 
 export abstract class RuleHandle<T = any> {
   protected readonly genius: WebpackGenius;

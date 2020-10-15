@@ -2,12 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import * as webpack from 'webpack';
 import { TerserPluginOptions } from 'terser-webpack-plugin';
-import { Configuration, Output, Options, Resolve, Plugin, RuleSetRule, Module } from 'webpack';
-import clonedeep from 'lodash.clonedeep';
+import { Configuration, WebpackPluginInstance, RuleSetRule, ModuleOptions } from 'webpack';
+import { cloneDeep, get } from 'lodash';
 import { HotModule } from './plugins/HotModule';
 import { PluginHandle } from './plugins/PluginHandle';
-import { HashedModuleIds } from './plugins/HashedModuleIds';
-import { Html as HtmlPlugin } from './plugins/Html';
+import { Html as PluginHtml } from './plugins/Html';
 import { Html as HtmlRule } from './rules/Html';
 import { Clean } from './plugins/Clean';
 import { MiniCss } from './plugins/MiniCss';
@@ -26,10 +25,8 @@ import { Define } from './plugins/Define';
 import { CssNodeModules } from './rules/CssNodeModules';
 import { Json5 } from './rules/Json5';
 import { ProgressBar } from './plugins/ProgressBar';
-import { Preload } from './plugins/Preload';
 import { ReactRefresh } from './plugins/ReactRefresh';
 import { ErrorOverlay } from './plugins/ErrorOverlay';
-import { AntdDayJs } from './plugins/AntdDayJs';
 import { CssHandle } from './rules/CssHandle';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -46,7 +43,7 @@ export class WebpackGenius {
     output: {},
     stats: {},
     resolve: {},
-    entry: [],
+    entry: [''],
     plugins: [],
     devServer: {},
     module: {
@@ -67,7 +64,7 @@ export class WebpackGenius {
   }
 
   public getConfig(): Configuration {
-    return clonedeep(this.config);
+    return cloneDeep(this.config);
   }
 
   public hasPackage(name: string): boolean {
@@ -75,7 +72,7 @@ export class WebpackGenius {
   }
 
   public getPackageField(name: string): any {
-    return packageFile[name];
+    return get(packageFile, name);
   }
 
   public getPort(): number {
@@ -94,24 +91,26 @@ export class WebpackGenius {
     return process.env.IS_HOT !== 'yes';
   }
 
-  public switchChunkHash(hashNumber: number = 15): string {
+  // Use in js
+  public switchChunkHash(hashNumber: number = 12): string {
     if (this.isHot()) {
-      return 'chunkhash.[id]';
+      return 'chunkhash';
     }
 
     return `[chunkhash:${hashNumber}]`;
   }
 
-  public switchContentHash(hashNumber: number = 15): string {
+  // Use in css / assets
+  public switchContentHash(hashNumber: number = 12): string {
     if (this.isHot()) {
-      return 'contenthash.[id]';
+      return 'contenthash';
     }
 
     return `[contenthash:${hashNumber}]`;
   }
 
   public getUglifyConfig(): TerserPluginOptions | undefined {
-    return clonedeep(this.uglifyConfig);
+    return cloneDeep(this.uglifyConfig);
   }
 
   public setUglifyConfig(config: TerserPluginOptions): this {
@@ -126,8 +125,18 @@ export class WebpackGenius {
     return this;
   }
 
-  public devtool(devtool: Options.Devtool | ((webpack: this) => Options.Devtool)): this {
+  public devtool(devtool: NonNullable<Configuration['devtool']> | ((webpack: this) => NonNullable<Configuration['devtool']>)): this {
     this.config.devtool = typeof devtool === 'function' ? devtool(this) : devtool;
+
+    return this;
+  }
+
+  // Cache the generated webpack modules and chunks to improve build speed
+  // cache is set to type: 'memory' in development mode and disabled in production mode.
+  // cache: true is an alias to cache: { type: 'memory' }
+  // To disable caching pass false
+  public cache(cache: NonNullable<Configuration['cache']> | ((webpack: this) => NonNullable<Configuration['cache']>)): this {
+    this.config.cache = typeof cache === 'function' ? cache(this) : cache;
 
     return this;
   }
@@ -138,27 +147,27 @@ export class WebpackGenius {
     return this;
   }
 
-  public noParse(pattern: Module['noParse']): this {
+  public noParse(pattern: ModuleOptions['noParse']): this {
     this.config.module!.noParse = pattern;
 
     return this;
   }
 
-  public optimization(fn: (optimization: Options.Optimization, webpack: this) => Options.Optimization | void): this {
+  public optimization(fn: (optimization: NonNullable<Configuration['optimization']>, webpack: this) => Configuration['optimization'] | void): this {
     const result = fn(this.config.optimization!, this);
 
     if (typeof result === 'object') {
-      this.config.optimization = clonedeep(result);
+      this.config.optimization = cloneDeep(result);
     }
 
     return this;
   }
 
-  public output(fn: (output: Output, webpack: this) => Output | void): this {
+  public output(fn: (output: NonNullable<Configuration['output']>, webpack: this) => Configuration['output'] | void): this {
     const result = fn(this.config.output!, this);
 
     if (typeof result === 'object') {
-      this.config.output = clonedeep(result);
+      this.config.output = cloneDeep(result);
     }
 
     return this;
@@ -173,7 +182,6 @@ export class WebpackGenius {
       if (is) {
         css
           .removeLoader('style-loader')
-          .removeLoader('cache-loader')
           .addLoaderBefore(
             {
               loader: MiniCssExtractPlugin.loader,
@@ -187,8 +195,7 @@ export class WebpackGenius {
       } else {
         css
           .removeLoader(MiniCssExtractPlugin.loader)
-          .addLoaderBefore({ loader: 'style-loader' }, 'css-loader')
-          .addLoaderBefore({ loader: 'cache-loader' });
+          .addLoaderBefore({ loader: 'style-loader' }, 'css-loader');
       }
     };
 
@@ -232,17 +239,17 @@ export class WebpackGenius {
     const result = fn(this.config.devServer!, this);
 
     if (typeof result === 'object') {
-      this.config.devServer = clonedeep(result);
+      this.config.devServer = cloneDeep(result);
     }
 
     return this;
   }
 
-  public stats(fn: (stats: Options.Stats, webpack: this) => Options.Stats | void): this {
+  public stats(fn: (stats: NonNullable<Configuration['stats']>, webpack: this) => Configuration['stats'] | void): this {
     const result = fn(this.config.stats!, this);
 
     if (typeof result === 'object') {
-      this.config.stats = clonedeep(result);
+      this.config.stats = cloneDeep(result);
     }
 
     return this;
@@ -258,17 +265,17 @@ export class WebpackGenius {
     return this.config.entry;
   }
 
-  public resolve(fn: (resolve: Resolve, webpack: this) => Resolve | void): this {
+  public resolve(fn: (resolve: NonNullable<Configuration['resolve']>, webpack: this) => Configuration['resolve'] | void): this {
     const result = fn(this.config.resolve!, this);
 
     if (typeof result === 'object') {
-      this.config.resolve = clonedeep(result);
+      this.config.resolve = cloneDeep(result);
     }
 
     return this;
   }
 
-  public addPlugin(plugin: Plugin): this {
+  public addPlugin(plugin: WebpackPluginInstance): this {
       this.config.plugins?.push(plugin);
 
       return this;
@@ -292,14 +299,6 @@ export class WebpackGenius {
 
   public pluginReactRefresh(fn?: (plugin: ReactRefresh) => void): this {
     const plugin = this.findPlugin('react-refresh', () => new ReactRefresh(this));
-
-    fn?.(plugin);
-
-    return this;
-  }
-
-  public pluginAntdDayJs(fn?: (plugin: AntdDayJs) => void): this {
-    const plugin = this.findPlugin('antd-day-js', () => new AntdDayJs(this));
 
     fn?.(plugin);
 
@@ -338,24 +337,8 @@ export class WebpackGenius {
     return this;
   }
 
-  public pluginPreload(fn?: (plugin: Preload) => void): this {
-    const plugin = this.findPlugin('preload', () => new Preload(this));
-
-    fn?.(plugin);
-
-    return this;
-  }
-
-  public pluginHtml(fn?: (plugin: HtmlPlugin) => void): this {
-    const plugin = this.findPlugin('html', () => new HtmlPlugin(this));
-
-    fn?.(plugin);
-
-    return this;
-  }
-
-  public pluginHashedModule(fn?: (plugin: HashedModuleIds) => void): this {
-    const plugin = this.findPlugin('hashed-module', () => new HashedModuleIds(this));
+  public pluginHtml(fn?: (plugin: PluginHtml) => void): this {
+    const plugin = this.findPlugin('html', () => new PluginHtml(this));
 
     fn?.(plugin);
 
@@ -379,7 +362,7 @@ export class WebpackGenius {
   }
 
   public addRule(rule: RuleSetRule): this {
-    this.config.module?.rules.push(rule);
+    this.config.module?.rules!.push(rule);
 
     return this;
   }
@@ -487,7 +470,7 @@ export class WebpackGenius {
   }
 
   public/*protected*/ collect() {
-    const config = clonedeep(this.config);
+    const config = cloneDeep(this.config);
 
     // Plugin has sequence sometimes
     Object.values(this.plugins).reverse().forEach((plugin) => {
@@ -498,7 +481,7 @@ export class WebpackGenius {
 
     Object.values(this.rules).forEach((rule) => {
       if (rule.isUsed()) {
-        config.module?.rules.push(rule.collect());
+        config.module?.rules!.push(rule.collect());
       }
     });
 

@@ -1,4 +1,4 @@
-import { Plugin } from 'webpack';
+import { WebpackPluginInstance } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
@@ -15,7 +15,7 @@ export class Copy extends PluginHandle {
     return this;
   }
 
-  collect(): Plugin[] {
+  collect(): WebpackPluginInstance[] {
     if (this.patterns.length) {
       return [
         new CopyWebpackPlugin({

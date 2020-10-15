@@ -1,4 +1,3 @@
-import 'v8-compile-cache';
 import './misc/module';
 import { WebpackGenius } from "./WebpackGenius";
 import { setOutput } from "./libraries/output";
@@ -17,7 +16,7 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
     const genius = new WebpackGenius(env, port);
 
     genius
-      .target('web')
+      .target('browserslist')
       .entry(getEntry(genius))
       .devtool(setDevtool)
       .mode(setMode)
@@ -45,22 +44,11 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       .pluginHotModuleReplace((plugin) => {
         plugin.enable(genius.isHot());
       })
-      .pluginHashedModule((plugin) => {
-        plugin.enable(genius.isBuild());
-      })
       .pluginReactRefresh((plugin) => {
         plugin.enable(genius.isHot());
       })
       .pluginProgressBar((plugin) => {
         plugin.enable(genius.isBuild());
-      })
-      .pluginPreload((plugin) => {
-        plugin
-          .usePrefetch()
-          .enable(genius.isBuild());
-      })
-      .pluginAntdDayJs((plugin) => {
-        plugin.enable(genius.hasPackage('antd') && genius.hasPackage('dayjs'));
       })
       .pluginGzip((plugin) => {
         // You can reopen it by `plugin.enable(genius.isBuild());`

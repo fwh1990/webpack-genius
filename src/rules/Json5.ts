@@ -1,5 +1,5 @@
-import { RuleHandle } from './RuleHandle';
-import { RuleSetCondition, RuleSetLoader } from 'webpack';
+import { RuleHandle, RuleSetLoader } from './RuleHandle';
+import { RuleSetCondition } from 'webpack';
 
 interface Json5Options {
   'json5-loader': {

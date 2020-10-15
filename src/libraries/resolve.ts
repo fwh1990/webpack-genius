@@ -1,11 +1,25 @@
-import { Resolve } from 'webpack';
+import { Configuration } from 'webpack';
 import { WebpackGenius } from '../WebpackGenius';
 
-export const setResolve = (resolve: Resolve, genius: WebpackGenius): void => {
+export const setResolve = (resolve: NonNullable<Configuration['resolve']>, genius: WebpackGenius): void => {
+  resolve.extensions = [];
+
   if (genius.hasPackage('typescript')) {
-    resolve.extensions = ['.ts', '.tsx', '.js', '.jsx'];
-  } else {
-    resolve.extensions = ['.js', '.jsx'];
+    resolve.extensions = ['.ts'];
+
+    if (genius.hasPackage('react')) {
+      resolve.extensions.push('.tsx');
+    }
+  }
+
+  resolve.extensions.push('.js');
+
+  if (genius.hasPackage('react')) {
+    resolve.extensions.push('.jsx');
+  }
+
+  if (genius.hasPackage('vue')) {
+    resolve.extensions.push('.vue');
   }
 
   resolve.alias = {};

@@ -1,5 +1,5 @@
-import { RuleHandle } from './RuleHandle';
-import { RuleSetCondition, RuleSetLoader } from 'webpack';
+import { RuleHandle, RuleSetLoader } from './RuleHandle';
+import { RuleSetCondition } from 'webpack';
 
 export class Html extends RuleHandle {
   protected test(): RuleSetCondition {
