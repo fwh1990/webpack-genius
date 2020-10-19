@@ -1,5 +1,4 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import { WebpackPluginInstance } from 'webpack';
 import { PluginHandle } from './PluginHandle';
 
@@ -32,8 +31,6 @@ export class MiniCss extends PluginHandle {
     return [
       // https://github.com/webpack-contrib/mini-css-extract-plugin#extracting-all-css-in-a-single-file
       new MiniCssExtractPlugin(this.config),
-      // https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production
-      new OptimizeCssAssetsPlugin(),
     ];
   }
 }

@@ -17,7 +17,7 @@ export class Json5 extends RuleHandle<Json5Options> {
       {
         loader: 'json5-loader',
         options: {
-          esModule: false,
+          esModule: true,
         },
       }
     ];

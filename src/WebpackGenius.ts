@@ -188,6 +188,7 @@ export class WebpackGenius {
               options: {
                 // Relative position between css and image
                 publicPath: '../',
+                esModule: true,
               },
             },
             'css-loader',

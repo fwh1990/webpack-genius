@@ -11,31 +11,8 @@ export class Html extends RuleHandle {
       {
         loader: 'html-loader',
         options: {
-          attributes: {
-            root: '.',
-            list: [
-              {
-                tag: 'img',
-                attribute: 'src',
-                type: 'src',
-              },
-              {
-                tag: 'link',
-                attribute: 'href',
-                type: 'src',
-              },
-              {
-                tag: 'audio',
-                attribute: 'src',
-                type: 'src',
-              },
-              {
-                tag: 'video',
-                attribute: 'src',
-                type: 'src',
-              },
-            ],
-          },
+          attributes: true,
+          // https://github.com/webpack-contrib/html-loader#esmodule
           esModule: false,
           // Mini by html-webpack-plugin
           minimize: false,

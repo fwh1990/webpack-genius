@@ -7,7 +7,7 @@ import { findConfig } from 'browserslist/node';
 export interface CssOptions {
   'style-loader': {};
   'css-loader': {
-    modules: boolean;
+    modules: boolean | object;
     esModule: boolean;
     sourceMap: boolean;
     importLoaders: number;
@@ -43,8 +43,11 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
       {
         loader: 'css-loader',
         options: {
-          modules: true,
-          esModule: false,
+          modules: {
+            // https://github.com/webpack-contrib/css-loader#localidentname
+            localIdentName: this.genius.isHot() ? '[path][name]__[local]' : '[hash:base64]',
+          },
+          esModule: true,
           sourceMap: this.genius.isHot(),
         },
       },

@@ -30,7 +30,7 @@ export class Asset extends RuleHandle<AssetOptions> {
           // Transform to base64
           limit: this.genius.isBuild() ? 2048 : false,
           name: `assets/[name].${this.genius.switchContentHash()}.[ext]`,
-          esModule: false,
+          esModule: true,
         },
       }
     ];
