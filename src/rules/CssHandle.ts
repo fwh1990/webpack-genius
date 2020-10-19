@@ -43,7 +43,10 @@ export abstract class CssHandle<T extends CssOptions = CssOptions> extends RuleH
       {
         loader: 'css-loader',
         options: {
-          modules: true,
+          modules: {
+            // https://github.com/webpack-contrib/css-loader#localidentname
+            localIdentName: this.genius.isHot() ? '[path][name]__[local]' : '[hash:base64]',
+          },
           esModule: false,
           sourceMap: this.genius.isHot(),
         },
