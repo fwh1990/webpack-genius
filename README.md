@@ -1,33 +1,26 @@
-# Installation
-
-**For chinese developers:** you'd better add taobao mirror before everything start. Or you may fail to install.
-```bash
-yarn config set registry http://registry.npm.taobao.org
-```
-
-**For all developers:**
+# 安装
 
 ```bash
 yarn add webpack-genius --dev
 ```
 
-# Features
-* Transform all kinds of extensions
-* Hot-Reload for your project (Not refresh)
-* High performance
+# 特性
+* 支持所有常用文件后缀
+* 超快的开发热更新
+* 智能配置，外加TS提示
 
-# Demo
+# 案例
 [React Hooks](https://github.com/redux-model/demo-react-hooks)
 
-# Usage
-Create file `webpack.config.ts`. Not `.js`
+# 使用方法
+创建文件 `webpack.config.ts`。注意不是 `.js` 后缀
 ```typescript
 import webpackGenius from 'webpack-genius';
 
 export default webpackGenius(3000);
 ```
 
-Add cli to you `package.json`
+然后把下面的指令加入到文件 `package.json`
 ```json
 {
     "scripts": {
@@ -37,10 +30,10 @@ Add cli to you `package.json`
 }
 ```
 
-### Change Entry
-Genius will search entry file automatically from `index`, `Index`, `src/index`, `src/Index` with one of this extensions `.js`, `.ts`, `.jsx`, `.tsx`
+### 入口文件
+框架会优先使用 `package.json`中的 `main` 字段作为入口文件，如果没有这个字段或者文件不存在，框架会接着自动查找文件 `index`, `Index`, `src/index`, `src/Index`，只要他们携带 `.js`, `.ts`, `.jsx`, `.tsx` 中的任意一个后缀就算找到。
 
-Or you can override entry file:
+当然了，您也可以手动指定
 ```typescript
 import webpackGenius from 'webpack-genius';
 
@@ -50,8 +43,10 @@ export default webpackGenius(3000, (genius) => {
 ```
 
 
-### Change Host
-The default host is `0.0.0.0`, you may keep this IP address usually.
+### 域名
+默认使用IP `0.0.0.0`，这样本机和局域网都能访问到您的项目。
+
+您也可以使用域名
 ```typescript
 import webpackGenius from 'webpack-genius';
 
@@ -59,15 +54,15 @@ export default webpackGenius(3000, (genius) => {
     genius
         .entry('...')
         .devServer((server) => {
-            server.host = 'YOUR HOST OR IP';
+            server.host = '自定义域名或者IP';
         });
 });
 ```
 
-### Point `index.html` to your own template
-Genius will search entry file automatically from `index`, `public/index`, `src/index`, `src/public/index`, `assets/index`, `src/assets/index` with one of this extensions `.html` `.htm`
+### 指定 `index.html`
+框架会自动找这些文件 `index`, `public/index`, `src/index`, `src/public/index`, `assets/index`, `src/assets/index`， 只要它们携带 `.html` `.htm` 中的任意一种格式就算找到。
 
-Or you can override html file:
+当然了，您也可以手动指定
 ```typescript
 import webpackGenius from 'webpack-genius';
 
@@ -80,8 +75,10 @@ export default webpackGenius(3000, (genius) => {
 });
 ```
 
-### Disable css-modules
-I recommend everybody use `css-modules` feature, but you can disable it if you don't like:
+### Css Modules
+强烈推荐各位使用 `css-modules` 特性，有了它，我们不再需要关心样式是否会被污染或者覆盖了。
+
+当然了，您也可以关掉它
 ```typescript
 import webpackGenius from 'webpack-genius';
 
