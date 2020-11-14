@@ -11,7 +11,7 @@ interface AssetOptions {
 
 export class Asset extends RuleHandle<AssetOptions> {
   protected test(): RuleSetCondition {
-    return /\.(png|jpg|jpeg|gif|ico|svg|woff|woff2|eot|ttf|mp3)$/i;
+    return /\.(png|jpg|jpeg|gif|ico|svg|woff|woff2|eot|ttf|otf|mp3)$/i;
   }
 
   public base64Limit(limit: number | string | boolean): this {
