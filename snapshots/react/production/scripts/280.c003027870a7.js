@@ -1,0 +1,2 @@
+(self.webpackChunkreact=self.webpackChunkreact||[]).push([[280],{7280:(n,t,e)=>{"use strict";e.r(t),e.d(t,{default:()=>o});var r=e(7480),s=e.n(r),c=e(5893),u=e(7294);const a="_39rIPah0L00plXtsKF-MSg";const o=function(n){function t(){return n.apply(this,arguments)||this}return s()(t,n),t.prototype.render=function(){return(0,c.jsx)("div",{className:a,children:"async chunks"})},t}(u.PureComponent)}}]);
+//# sourceMappingURL=280.c003027870a7.js.map

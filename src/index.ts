@@ -10,13 +10,14 @@ import { setDevServer, setDevServerAfter } from './libraries/devserver';
 import { setOptimization, setOptimizationAfter } from './libraries/optimization';
 import { getEntry } from './libraries/entry';
 import { getHtmlTemplate } from './libraries/template';
+import { findConfig } from 'browserslist/node';
 
 const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void): Function => {
-  return (env: string): Configuration => {
-    const genius = new WebpackGenius(env, port);
+  return (env: { development?: boolean, production?: boolean }): Configuration => {
+    const genius = new WebpackGenius(env.production ? 'production' : 'development', port);
 
     genius
-      .target('browserslist')
+      .target(findConfig(process.cwd()) ? 'browserlists' : 'web')
       .entry(getEntry(genius))
       .devtool(setDevtool)
       .mode(setMode)
@@ -49,10 +50,6 @@ const webpackGenius = (port: number = 3000, fn?: (genius: WebpackGenius) => void
       })
       .pluginProgressBar((plugin) => {
         plugin.enable(genius.isBuild());
-      })
-      .pluginGzip((plugin) => {
-        // You can reopen it by `plugin.enable(genius.isBuild());`
-        plugin.enable(false);
       });
 
     genius

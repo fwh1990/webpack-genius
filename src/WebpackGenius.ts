@@ -19,7 +19,6 @@ import { Scss } from './rules/Scss';
 import { Less } from './rules/Less';
 import { LessAntd } from './rules/LessAntd';
 import { Asset } from './rules/Asset';
-import { Gzip } from './plugins/Gzip';
 import { Copy } from './plugins/Copy';
 import { Define } from './plugins/Define';
 import { CssNodeModules } from './rules/CssNodeModules';
@@ -308,14 +307,6 @@ export class WebpackGenius {
 
   public pluginCopy(fn?: (plugin: Copy) => void): this {
     const plugin = this.findPlugin('copy', () => new Copy(this));
-
-    fn?.(plugin);
-
-    return this;
-  }
-
-  public pluginGzip(fn?: (plugin: Gzip) => void): this {
-    const plugin = this.findPlugin('gzip', () => new Gzip(this));
 
     fn?.(plugin);
 
